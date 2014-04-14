@@ -81,6 +81,8 @@ This meta tag has no effect unless you first specify full-screen mode as describ
 
 If content is set to default, the status bar appears normal. If set to black, the status bar has a black background. If set to black-translucent, the status bar is black and translucent. If set to default or black, the web content is displayed below the status bar. If set to black-translucent, the web content is displayed on the entire screen, partially obscured by the status bar. The default value is default.
 
+> see more: https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html#//apple_ref/doc/uid/TP40008193-SW2
+
 ## 5.Home Page Icon(For IOS)
 
 把网站 `添加至主屏幕` 时，使用apple-touch-icon和apple-touch-icon-precomposed指定图片地址。两者区别是：使用apple-touch-icon属性会 `增加透明高光层的图标`; 使用apple-touch-icon-precomposed 时使用 `设计原图图标`。二选一即可。
