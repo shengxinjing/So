@@ -49,7 +49,6 @@
 ```html
 <meta name="viewport" content="initial-scale=1.0,user-scalable=no" /> 
 ```
-
 > see more:  
 > 1、http://www.quirksmode.org/mobile/metaviewport/
 > 2、http://bigc.at/ios-webapp-viewport-meta.orz
@@ -68,8 +67,8 @@
 
 ## 3.apple-mobile-web-app-capable(For IOS)
 
-IOS认为webapp有两种状态，一种是在 safari 中的usual态，还有一种是 Home Page 上打开的webapp 态。
-apple-mobile-web-app-capables 属性指定了，发送至桌面的webapp打开时是否全屏。webapp全屏时，会隐藏头部地址栏和底部状态栏，且此时可定义顶部的状态条样式。
+IOS中，webapp有两种状态，一种是浏览器中的 usual 态，还有一种是 Home Page 上打开的 webapp 态。
+apple-mobile-web-app-capables 指定了，发送至桌面的webapp打开时是否全屏(standalone)。webapp全屏时，会隐藏头部地址栏和底部状态栏，且此时可定义顶部的状态条样式。
 
 ```html
 <meta name="apple-mobile-web-app-capable" content="yes" >
@@ -87,7 +86,7 @@ This meta tag has no effect unless you first specify full-screen mode as describ
 <meta name="apple-mobile-web-app-status-bar-style" content="black" >
 ```
 
-If content is set to default, the status bar appears normal. If set to black, the status bar has a black background. If set to black-translucent, the status bar is black and translucent. If set to default or black, the web content is displayed below the status bar. If set to black-translucent, the web content is displayed on the entire screen, partially obscured by the status bar. The default value is default.
+If content is set to `default`, the status bar appears normal. If set to `black`, the status bar has a black background. If set to `black-translucent`, the status bar is black and translucent. If set to default or black, the web content is displayed below the status bar. If set to black-translucent, the web content is displayed on the entire screen, partially obscured by the status bar.
 
 > see more: https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html#//apple_ref/doc/uid/TP40008193-SW2
 
