@@ -44,7 +44,15 @@
     <tfoot></tfoot>
 </table>
 
-> see more:  http://www.quirksmode.org/mobile/metaviewport/
+建议写法(只需设置initial-scale即可，省略 width=device-width，因为iphone5 有Bug)：
+
+```html
+<meta name="viewport" content="initial-scale=1.0,user-scalable=no" /> 
+```
+
+> see more:  
+> 1、http://www.quirksmode.org/mobile/metaviewport/
+> 2、http://bigc.at/ios-webapp-viewport-meta.orz
 
 ## 2.format-detection
 
