@@ -1,0 +1,42 @@
+## 1、安全的类型检测
+JavaScript内置的类型检测机制并非完全可靠。在任何值上调用Object原生toString()方法，都会返回一个 `[object NativeConstrutor]` 格式的字符串。每个对象内部都有[[Class]]属性，该属性中的值就是该对象的构造函数名。   
+
+```javascript
+function isArray(value){
+    return {}.toString.call(value) === "[object Array]";    
+}
+```
+
+## 2、作用域安全的构造函数
+作用域安全的构造函数是指函数进行处理前，先确认this是否是当前构造函数的实例。如果不是，那么会创建新实例并返回。
+
+实现该模式后，如果你使用借用构造函数而不使用原型链（应尽量避免），那么这个继承很可能被破坏，解决方法是使用原型链。
+
+```javascript
+function Polygon(sides){
+    if (this instanceof Polygon){
+       this.sides = sides;
+    } else {
+       return new Polygon(sides);
+    }
+}
+
+function Rectangle(width){
+    Polygon.call(this, 2);
+    this.width = width;
+}
+
+Rectangle.prototype = new Polygon();   // 增加原型链
+
+var rect = new Rectangle(5);
+alert(rect.sides);                     // 2
+```
+
+## 3、随机序列生成器（数字 + 字母）
+```javascript
+function generateRandomAlphaNum(len) {
+    var rdmString = "";
+    for (; rdmString.length < len; rdmString += Math.random().toString(36).substr(2));
+    return rdmString.substr(0, len);
+}
+```
