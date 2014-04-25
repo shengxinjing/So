@@ -18,7 +18,7 @@ HTML主要是指HTML母板。主要放置的内容有，HTML5 mobile 标准头�
 
 ## CSS
 
-CSS的处理，改用了 LESS 预处理语言。本来希望引入autoprefixer，由于时间仓促，仅仅完成了调研，并没有投入使用。 
+CSS的处理，改用了 LESS 预处理语言。本来希望引入autoprefixer，由于时间仓促，仅仅完成了调研，并没有投入使用。
 
 整个CSS的架构层次是, reset/normal.CSS + util.CSS + mixin.less(基础颜色 + 浏览器兼容 + 实用函数) + widget.css(限制样式的作用域，FISP自带，web components的思想) + page.css。 每个层次的细节处理还不怎么到位，比如 noraml.css 没有良好的测试覆盖等，不过整体架构思路应该是正确的。
 
@@ -59,9 +59,15 @@ FIS1的时候，我们的UI库是使用百度的GMU，移动开发UI库。后来
 ## 开发规范
 
     1、目录组织和文件命名
-    2  HTML + CSS规范   (*参考：ecomfe、google、tweet)
+    2、HTML + CSS规范   (*参考：ecomfe、google、tweet)
     3、JS 规范          (*参考：ecomfe、google、jsdoc)
     4、FISP 使用规范    (基于业务实践)
+    
+## 文档平台
+
+1. ui化的 HTML+CSS 应该有文档，而且文档应该依赖就近的注释自动化生成（参考 http://trulia.github.io/hologram/）。
+2. 模块化JS应该有文档，文档应该依赖就近的注释自动化生成（参考 jsdoc）。
+3. 依赖与后端的数据也应该有文档，而且自动化随机生成测试数据（参考淘宝的mock数据, http://thx.alibaba-inc.com/RAP/）。
     
 ## 其他
     
