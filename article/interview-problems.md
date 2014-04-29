@@ -109,4 +109,70 @@ B();
 
 ## Javascript怎么实现继承
 
-### 原型
+### 怎么来继承
+
+简单而言，基础的继承实现就是原型式继承，然后是 all-in-ones 的继承方式（复制也是一种all-in-ones，mixin也是一种，函数借用也是一种）
+
+### 原型（构造函数）
+
+Javascript最为原始的继承方式，就是原型式继承。
+
+在Javascript中，一个函数被定义时，Javascript的语言机制会自动给该函数增加一个 protype 属性， prototype属性初始化是一个Object实例，默认有一个属性 constructor, 是对该函数的引用。
+
+```javascript
+function A() {}
+
+console.dir(A.prototype);                       // {constructor: A}
+console.log(A.prototype.constructor === A);     // true
+``` 
+
+开发者可以通过 new 操作符创建一个对象实例，此时该函数A被称为`构造函数`。在通过 new A() 创建对象实例a时，基于Javascript语言机制，会自动在a上关联一个[[prototype]]属性（引擎实现时一般使用的是 \__proto__ 属性），该属性指向当前构造函数 prototyoe 属性所引用的对象。
+
+```javascript
+var a = new A();
+
+console.dir(a);     // { __proto__: A.prototype }
+```
+
+在Javascript中，将对象[[prototype]]属性所引用的对象，定义为对象的`原型`。对象的原型由构造函数的prototype 确定。
+
+### 原型的作用
+
+既然通过new 操作符创建的对象都有一个 \__proto__ 语言私有属性，那么，这个属性在Javascript语言有什么的作用呢？
+
+原型的作用，在某种程度上与作用域的作用有些类似。 当开发者去访问（读取操作）对象上的属性时，Javascript首先在对象上查找是否存在同名属性，如果未能发现，这个时候会进入的 \__proto__ 所引用的对象上去查找同名属性（property find solution）。当然，开发者对在原型的属性仅仅访问权限，而没有其他权限，而作用域还拥有写入权限。
+
+```javascript
+function A(){}
+A.prototype.test = "aa";
+
+var a = new A();
+console.log(a.test);    // aa
+consolo.dir(a); 
+// { __proto__: {constructor: A; test: "aa"; __proto__: Object.prototype} }
+```
+
+由于所有通过 new A() 方式构造出来的对象都拥有对 A.prototype 的访问权限。 开发者就可以将对象的公共属性和方法（一般是方法居多，属性一般是做 override 使用）存放在 A.prototype 中，这样每个实例对象都可以访问这些属性和方法，从而实现继承。
+
+### this
+
+我日，这个就先跳过了。发现内容太多了。
+
+### 原型链
+
+有点像作用域链，属性（方法）的查询过程是一个递归查找原型链的过程。
+
+### override 重载
+
+基于原型链的屏蔽效应。与作用域不同的地方是，作用域的屏蔽效应是不可恢复的（因为没有对函数变量对象的删除权限，这个权限是Javascript内部的），原型链的屏蔽效应是能一定程度恢复的。
+
+```javascript
+function A(){}
+A.prototype.test = "aa";
+
+var a = new A();
+a.test = "bb";          // 增加屏蔽
+console.log(a.test);    // bb
+delete a.test;          // 消除屏蔽
+console.log(a.test);    // aa
+```
