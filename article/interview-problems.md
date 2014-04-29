@@ -1,4 +1,4 @@
-# 前端面试集锦
+# 前端面试集锦（一）
 
 ## 语法你妹
 
@@ -162,7 +162,7 @@ consolo.dir(a);
 
 有点像作用域链，属性（方法）的查询过程是一个递归查找原型链的过程。
 
-### override 重载
+### override 重载（一直不知道重载是神马意思）
 
 基于原型链的屏蔽效应。与作用域不同的地方是，作用域的屏蔽效应是不可恢复的（因为没有对函数变量对象的删除权限，这个权限是Javascript内部的），原型链的屏蔽效应是能一定程度恢复的。
 
@@ -175,4 +175,64 @@ a.test = "bb";          // 增加屏蔽
 console.log(a.test);    // bb
 delete a.test;          // 消除屏蔽
 console.log(a.test);    // aa
+```
+
+### 基于原型式继承的面向对象编程
+
+```javascript
+Function.prototype.implement = function(superClass) {
+    // 实现继承链
+    function F(){};
+    F.prototype = superClass.prototype;
+    this.prototype = new F();
+    
+    // 修复 constructor 属性 和 增加对父级原型的访问权限
+    this.prototype.constructor = this;
+    this.prototype._superProto = superClass.prototype;
+};
+
+// 构造函数A
+function A() { this.name = "aa"; }
+
+// 构造函数B
+function B() {}
+B.prototype.test = function (){ console.log(456); }
+
+// 在A上实现B的接口，即A继承于B
+A.implement(B);
+
+var a = new A();
+console.log(a.name);        // aa
+console.log(a.test());       // 456
+console.log(a.constructor === A);           // true
+console.log(a._superProto === B.prototype); // true
+console.log(a._superProto.test === a.test); // true
+```
+
+### all-in-ones
+
+有点懒，暂时就先忽略一下。
+
+### 基于复制的面向对象编程
+
+```javascript
+Object.prototype.implement = function (obj) {
+    // 这里写的浅复制，没来得及写成深复制。
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)){
+            this[key] = obj[key];
+        }
+    }
+}
+
+var promise = {
+    onFulfill: function() {...},
+    onReject: function() {...},
+    fulfill: function() {...},
+    reject: function() {...},
+    status: "pending"
+};
+
+var obj = {};
+obj.implement(promise);
 ```
