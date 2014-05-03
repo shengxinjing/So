@@ -26,6 +26,7 @@ function loadUser(req, res, next) {
 }
 
 // use 中间件，影响所有用户请求，或 `path` 目录下的所有请求
+// 用户请求进来时，会根据声明的顺序依次调用中间件
 app.use(function(req, res, next){
   // 消息传递机制，即中间件模式    
   req.authenticatedUser = users[0];   
@@ -89,6 +90,9 @@ app.use(express.static(__dirname + '/public'));
 // 所有以 '/static' 起始的请求，删除该前置路径并转交给 express.static() 中间件处理
 // staticMiddleware 使用的是 req.url, 而非 req.originalUrl
 // 匹配 /static 前置路径后, req.url 会自动删除该前置路径
+/*
+Mounted middleware `app.use(prefixPath, function)` functions are not invoked unless the req.url contains this prefix, at which point it is stripped when the function is invoked. This affects this function only, subsequent middleware will see req.url with "/static" included unless they are mounted as well.
+*/
 app.use('/static', express.static(__dirname + '/public'));
 
 // static 中间件可多次调用，如果无法匹配目录，会调用 next()
@@ -240,7 +244,7 @@ app.param('user', function(req, res, next, userId){
 });
 ```
 
-## 11、params + query + body = param
+## 11、params + query + body = req.param
 
     req.param(name)
 
@@ -252,4 +256,40 @@ Lookup is performed in the following order:
 
 Direct access to `req.body`, `req.params`, and `req.query` should be favoured for clarity - unless you truly accept input from each object.
 
-## 12、
+## 12、路由控制
+
+    app.get(path, [callback...], callback)
+
+支持多个回调函数，在回调函数内部可调用 `next('route')` 函数中断当前路由（即不会执行当前路由的后续回调函数），而将控制权转交给后续路由。    
+
+    app.route(path)
+
+返回一个路由实例，在实例上可以调用 VERB 方法，主要应用如下：
+
+```javascript
+app.route('/events')
+.all(function(req, res, next) {
+})
+.get(function(req, res, next) {
+})
+.post(function(req, res, next) {
+})
+```
+
+## 13、locals 对象，依赖注入？
+
+    app.locals      // for all view templates
+    req.locals      // for the current response view template
+    
+在 `app.locals` 或 `res.locals` 对象中声明的属性或方法，可以在视图模版中访问到。经常用于定义一些全局或公用变量，使得程序易于维护。
+
+## 14、获取用户请求头数据
+
+    req.get(httpHeaderName)
+
+大小写不敏感，
+req.get('Content-Type');
+req.get('content-type');
+是一个效果。
+
+## 15、
