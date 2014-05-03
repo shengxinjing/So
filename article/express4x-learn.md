@@ -92,7 +92,11 @@ app.use(express.static(__dirname + '/public'));
 // 匹配 /static 前置路径后, req.url 会自动删除该前置路径
 /*
 子目录中间件
-Mounted middleware `app.use(prefixPath, function)` functions are not invoked unless the req.url contains this prefix, at which point it is stripped when the function is invoked. This affects this function only, subsequent middleware will see req.url with "/static" included unless they are mounted as well.
+Mounted middleware `app.use(prefixPath, function)` functions are not invoked 
+unless the req.url contains this prefix, 
+at which point it is stripped when the function is invoked. 
+This affects this function only, 
+subsequent middleware will see req.url with "/static" included unless they are mounted as well.
 */
 app.use('/static', express.static(__dirname + '/public'));
 
@@ -215,7 +219,8 @@ res.cookie('name', 'tobi', { signed: true });
 var session = require('express-session');
 
 // Required by session() middleware, pass the secret key for signed cookies
-// if secret key is passed, then we can access it by `req.secret` in later middleware handlers, which is mostly used by sessionMiddleware.
+// if secret key is passed, then we can access it by `req.secret` in later middleware handlers, 
+// which is mostly used by sessionMiddleware.
 app.use(cookieParser('keyboard cat'));
 
 // Populates req.session, recognize user by signedSessionCookie.
@@ -225,10 +230,11 @@ app.use(cookieParser('keyboard cat'));
 app.use(session());
 
 // 在后面的middleware 中，开发者通过 req.session 来访问该用户的session信息。
-// session 存储在内存中时，表现为一个以 sessionId 为 key 的对象，其 value 为一个Object 实例（一个Object就是一个userSession）。当用户第二次访问时，就会拿着 sessionId 从内存中恢复其 session 数据。
+// session 存储在内存中时，表现为一个以 sessionId 为 key 的对象，其 value 为一个Object 实例（即一个userSession）。
+// 当用户第二次访问时，就会拿着 sessionId 从内存中恢复其 session 数据。
 ```
 
-## 10、app.param
+## 10、app.param 命名参数中间件
 
 For example when `:user` is present in a route path you may map user loading logic to automatically provide req.user to the route,  or perform validations on the parameter input.
 
@@ -247,7 +253,7 @@ app.param('user', function(req, res, next, userId){
 });
 ```
 
-## 11、params + query + body = req.param
+## 11、用户请求参数：params + query + body = req.param
 
     req.param(name)
 
