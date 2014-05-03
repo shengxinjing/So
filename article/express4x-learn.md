@@ -91,6 +91,7 @@ app.use(express.static(__dirname + '/public'));
 // staticMiddleware 使用的是 req.url, 而非 req.originalUrl
 // 匹配 /static 前置路径后, req.url 会自动删除该前置路径
 /*
+子目录中间件
 Mounted middleware `app.use(prefixPath, function)` functions are not invoked unless the req.url contains this prefix, at which point it is stripped when the function is invoked. This affects this function only, subsequent middleware will see req.url with "/static" included unless they are mounted as well.
 */
 app.use('/static', express.static(__dirname + '/public'));
@@ -206,6 +207,8 @@ res.cookie('remember', 1, { maxAge: minute });
 res.clearCookie('remember');
 // get cookies
 req.cookies.remember
+// set sign cookie
+res.cookie('name', 'tobi', { signed: true });
 ```
 
 ```javascript
@@ -292,4 +295,64 @@ req.get('Content-Type');
 req.get('content-type');
 是一个效果。
 
-## 15、
+## 15、JSON and JSONP
+
+JSON Response
+```javascript
+res.json({ user: 'tobi' })
+res.json(500, { error: 'message' })
+```
+
+JSONP Response
+```javascript
+// ?callback=foo
+res.jsonp({ user: 'tobi' })
+// => foo({ "user": "tobi" })
+
+app.set('jsonp callback name', 'cb');
+
+// ?cb=foo
+res.jsonp(500, { error: 'message' })
+// => foo({ "error": "message" })
+```
+
+## 16、内容协商
+
+    res.format(object)
+    
+Performs content-negotiation on the request `Accept` header field when present. This method uses `req.accepted`. When no match is performed, the server responds with 406 "Not Acceptable", or invokes the `default` callback.
+
+Use MIME
+
+```javascript
+res.format({
+  'text/plain': function(){
+    res.send('hey');
+  },
+  
+  'text/html': function(){
+    res.send('hey');
+  },
+  
+  'application/json': function(){
+    res.send({ message: 'hey' });
+  }
+});
+```
+OR ExtName
+
+```javascript
+res.format({
+  text: function(){
+    res.send('hey');
+  },
+  
+  html: function(){
+    res.send('hey');
+  },
+  
+  json: function(){
+    res.send({ message: 'hey' });
+  }
+});
+```
