@@ -326,7 +326,7 @@ res.jsonp(500, { error: 'message' })
 
     res.format(object)
     
-Performs content-negotiation on the request `Accept` header field when present. This method uses `req.accepted`. When no match is performed, the server responds with 406 "Not Acceptable", or invokes the `default` callback.
+Performs content-negotiation on the request `Accept` header field when present. When `Accept` is not present,  the _first_ callback is invoked, otherwise the first match is used. When no match is performed the server responds with 406 "Not Acceptable". if `object.default` is defined as a `function`, then it will be invoked instead of a response of 406. 
 
 Use MIME
 
