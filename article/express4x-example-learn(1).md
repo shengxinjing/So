@@ -166,3 +166,24 @@ api.all('*', function(req, res, next){
     next();
 });
 ```
+
+## 权限认证
+
+```javascript
+// 函数签名是有多伤身啊
+hash(password, function(err, salt, hash){});
+hash(password, salt, function(err, hash){}); 
+```
+
+## 简单的MVC
+
+```javascript
+// define a custom res.message() method which stores messages in the session
+app.response.message = function(msg){
+    // reference `req.session` via the `this.req` reference
+    var sess = this.req.session;
+    sess.messages = sess.messages || [];
+    sess.messages.push(msg);
+    return this;
+};
+```
