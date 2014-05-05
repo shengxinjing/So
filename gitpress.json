@@ -1,6 +1,7 @@
 {
     "docs"      : ["article"],
     "template"    : "phase",
+    "domain_alias" :  [],    
     "perpage"   : 10,
     "order"  : "number",
     "types"     : {
