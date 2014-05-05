@@ -273,7 +273,7 @@ module.exports = function(parent, options){
 
 form有个属性 `enctype`，默认值是 `application/x-www-form-urlencoded`，表示会将表单数据用&符号做一个简单的拼接。例如：
 
-```http
+```
 POST /post_test.php HTTP/1.1   
 Content-Type: application/x-www-form-urlencoded   
 Content-Length: 42  
@@ -285,7 +285,7 @@ title=test&content=%B3%AC%BC%B6%C5%AE%C9%FA&submit=post+article
 
 如果 `enctype` 的值为 `multipart/form-data`，表示表单中包含文件上传，它会将表单中的数据使用一个boundary作为分隔上传。例如：
 
-```http
+```
 POST /post_test.php?t=1 HTTP/1.1  
 Content-Type: multipart/form-data; boundary=---------------------------7dbf514701e8
 Content-Length: 345  
