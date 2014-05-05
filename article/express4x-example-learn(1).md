@@ -186,4 +186,121 @@ app.response.message = function(msg){
     sess.messages.push(msg);
     return this;
 };
+
+// Custom Router
+module.exports = function(parent, options){
+  var verbose = options.verbose;
+  
+  // 读取文件，目录结构与规范一致
+  fs.readdirSync(__dirname + '/../controllers').forEach(function(name){
+    // name 是一个模块目录名，比如 main、 user
+    verbose && console.log('\n   %s:', name);
+    
+    var obj = require('./../controllers/' + name);
+    
+    var name    = obj.name || name;
+    var prefix  = obj.prefix || '';
+    
+    var app = express();
+    
+    var method;
+    var path;
+
+    // allow specifying the view engine
+    if (obj.engine) app.set('view engine', obj.engine);
+    app.set('views', __dirname + '/../controllers/' + name + '/views');
+
+    // before middleware support
+    if (obj.before) {
+      path = '/' + name + '/:' + name + '_id';
+      app.all(path, obj.before);
+      
+      verbose && console.log('     ALL %s -> before', path);
+      
+      path = '/' + name + '/:' + name + '_id/*';
+      app.all(path, obj.before);
+      
+      verbose && console.log('     ALL %s -> before', path);
+    }
+
+    // generate routes based on the exported methods
+    for (var key in obj) {
+      // "reserved" exports
+      if (~['name', 'prefix', 'engine', 'before'].indexOf(key)) continue;
+      // route exports
+      switch (key) {
+        case 'show':
+          method = 'get';
+          path = '/' + name + '/:' + name + '_id';
+          break;
+        case 'list':
+          method = 'get';
+          path = '/' + name + 's';
+          break;
+        case 'edit':
+          method = 'get';
+          path = '/' + name + '/:' + name + '_id/edit';
+          break;
+        case 'update':
+          method = 'put';
+          path = '/' + name + '/:' + name + '_id';
+          break;
+        case 'create':
+          method = 'post';
+          path = '/' + name;
+          break;
+        case 'index':
+          method = 'get';
+          path = '/';
+          break;
+        default:
+          throw new Error('unrecognized route: ' + name + '.' + key);
+      }
+
+      path = prefix + path;         // 模拟 mounted app, if prefix is existed.
+      app[method](path, obj[key]);  // 指向path路径的method方法，由obj[key]指向的路由器接管
+      
+      verbose && console.log('     %s %s -> %s', method.toUpperCase(), path, key);
+    }
+
+    // mount the app
+    parent.use(app);
+  });
+};
 ```
+
+## FORM 表单提交
+
+form有个属性 `enctype`，默认值是 `application/x-www-form-urlencoded`，表示会将表单数据用&符号做一个简单的拼接。例如：
+
+```http
+POST /post_test.php HTTP/1.1   
+Content-Type: application/x-www-form-urlencoded   
+Content-Length: 42  
+   
+title=test&content=%B3%AC%BC%B6%C5%AE%C9%FA&submit=post+article  
+```
+
+这个时候 `Content-Type` 为 `application/x-www-form-urlencoded`。
+
+如果 `enctype` 的值为 `multipart/form-data`，表示表单中包含文件上传，它会将表单中的数据使用一个boundary作为分隔上传。例如：
+
+```http
+POST /post_test.php?t=1 HTTP/1.1  
+Content-Type: multipart/form-data; boundary=---------------------------7dbf514701e8
+Content-Length: 345  
+   
+-----------------------------7dbf514701e8  
+Content-Disposition: form-data; name="title"  
+test  
+-----------------------------7dbf514701e8  
+Content-Disposition: form-data; name="content"  
+....  
+-----------------------------7dbf514701e8  
+Content-Disposition: form-data; name="submit"  
+post article  
+-----------------------------7dbf514701e8--  
+```
+
+这时 `Content-Type` 变为 `multipart/form-data`。
+参考：http://imzc.net/archives/131 
