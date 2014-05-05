@@ -1,6 +1,6 @@
 {
     "docs"      : ["article"],
-    "template"    : "slate",
+    "template"    : "pithiness",
     "domain_alias" :  [],    
     "perpage"   : 10,
     "order"  : "number",
