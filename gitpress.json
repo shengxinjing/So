@@ -1,1 +1,28 @@
-{}
+{
+    "docs"      : ["article"],
+    "template"    : "phase",
+    "domain_alias" :  ["sojuker"],    
+    "perpage"   : 10,
+    "order"  : "number",
+    "types"     : {
+        "\\.(md||markdown)$"   : "markdown", 
+        "\\.(js||css||json)$"  : "code",
+        "\\.html?$"            : "html",
+        ".*"                   : "text"        
+    },
+    "title"  : "sojuker's Blog",
+    "description" : "我很懒",
+    "comment"  : {"type":"disqus", "short_name":"gitpress"},
+    "friends"  : [
+        {
+          "name"  : "github",
+          "title"  : "github",
+          "url"  : "http://github.com"          
+        },
+        {
+          "name"  : "gitpress",
+          "title"  : "gitpress",
+          "url"  : "http://gitpress.org"
+        }
+    ] 
+}
