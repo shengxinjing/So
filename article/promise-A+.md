@@ -235,4 +235,10 @@ when the promise1 fulfills ，invoke the callback `fulfill`, which returns promi
 promise2's status changes depending on the status changing on promise3. if promise3 fulfills with a `value`, then promise2 fulfills with the same `value`. if promise3 reject with a `reason`, then promise2 rejects with the same `reason`.
 
 if the callback `fulfill` returns a `value` which is not thenable(promise must be thenabel, but thenable object/function may not be a promise), then fulfill promise2 with the same `value`. 
+
+## 7.注意
+
+    promise.fulfill(data) 时, data值避免返回为一个 promise 对象。
+
+因为会有意外的逻辑存在，还是以程序可控为第一要旨。
     
