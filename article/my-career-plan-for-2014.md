@@ -19,12 +19,13 @@
  5. 类库学习，初定 extjs
  6. MVC框架学习，backbone OR angular
  7. 《Javascript 框架学习》
+ 8. requirejs 和 seajs 对比学习
 
 ## Nodejs
 
  1. 《深入浅出Nodejs》
- 2. Express 4x 学习
- 3. Express 4x 源码学习 
+ 2. Express 4x 学习 *(done)*
+ 3. Express 4x 源码学习 *(undergoing)*
  4. Express + mongoose 后端项目实践（+ 源码阅读）
 
 ## 其他
