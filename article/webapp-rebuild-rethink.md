@@ -26,9 +26,9 @@ CSS的处理，FIS2 改用了 LESS 预处理语言。本来希望引入autoprefi
 
 ## js基础类库 和 js模块化
 
-使用 zepto 框架作为我们的基础库，除核心 zepto.js 外， ajax、event、form、detect、touch 等子模块也进行了集成。 但由于这次时间仓促，还是沿用了 gmu 封装的zepto库，版本比较老。为了充分享受开源社区的成果，以后可以考虑使用最新的zepto版本。
+使用 zepto 作为我们的基础库，除核心 zepto.js 外，也引入 ajax、event、form、touch 等子模块。 由于时间仓促，还是沿用了 gmu 封装的zepto库，版本比较老。为了充分享受开源社区的成果，也考虑使用最新的zepto版本。
 
-在js模块管理库的选用上，使用的fis 开源的 modjs， modjs 天生与fis2的 map.json 配合，所以在开发成本上更小。 在可选用的js模块管理库上，目前还有 requirejs 和 seajs，后续可能会有学习和项目应用。
+在js模块管理库的选用上，使用的 fis 开源的 modjs， modjs 天生与fis2的 map.json 配合，所以在开发成本上更小。 在可选用的js模块管理库上，目前还有 requirejs 和 seajs，后续可能会有学习和项目应用。
 
 ## UI库 和 js基础模块
 
