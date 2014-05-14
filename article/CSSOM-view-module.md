@@ -3,7 +3,7 @@
 ## Window Interface
 
 **innerWidth/Height**
-视口`viewport`大小，不含外部滚动条。
+视口`viewport`大小, 含滚动条。
 
 outerWidth/Height
 浏览器窗口的大小，几乎不用
@@ -75,3 +75,5 @@ The computed value of the `position` property is not static
 
 screenX, screenY
 鼠标相对于显示器屏幕的坐标。
+
+see: [w3c 文档](http://www.w3.org/TR/cssom-view/)
