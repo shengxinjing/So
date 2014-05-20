@@ -26,9 +26,10 @@
 当我们说“一个盒子的容器块”，是指这个盒子所在的容器块，而不是说这个盒子所生成的容器块。
 
 每个盒子相对于其容器块定位，但并不限于容器块内部，因此盒子可能溢出。
+
 ## 2. 显示类型 —— 控制盒子的生成
 
-## 块级元素和块盒子
+### 块级元素和块盒子
 
 > Block-level elements are those elements of the source document that are formatted visually as blocks.
 > 
@@ -42,37 +43,37 @@
 
  > Block-level boxes that are also block containers are called block boxes.
 
-`block level box`、`block container box` 和 `block box`，当我们不强调三者间的区别时，都缩写为 block。
+`block level box`、`block container box` 和 `block box`，当我们不强调三者间的区别时，都缩写为 `block`。
 
-2.1.1 匿名 block boxes
-如果一个块容器盒子内部拥有一个块级盒子，那么这个块容器盒子内部只能包含块级盒子。
+### 匿名 block boxes
 
-匿名盒子的属性会从包含该盒子的非匿名盒子中继承，非继承属性则赋予其初始值。
+如果一个 `block container box` 内部拥有一个 `block-level box`，那么该 `block container box` 内部只能包含 `block-level box`。
 
-在相对于匿名块盒子计算百分数值时，该匿名块盒子会被忽略，而使用最近的祖先非匿名盒子作为基准。
+PS: **避免出现这样的情况**，因此以下省略
 
-2.2 行内级元素 和 行内盒子
-行内级元素是指那些在源文档中不生成新块级内容的元素，其内容将被分配到行中。
+### 行内级元素 和 行内盒子
 
-values make an element inline-level: 'inline', 'inline-table', and 'inline-block'.
+`inline-level element` 是指那些不生成新块级内容的元素，其内容将被分配到行中。
 
-行内级元素生成行内级盒子，是IFC中的基本盒子。
+ > values make an element inline-level: 'inline', 'inline-table', and 'inline-block'.
+
+`inline-level element` 生成 `inline-level box`，是 `Inline Formatting Context` 中的基础元素。
 
 行内盒子是指本身是行内级盒子，同时其内容也参与到其所在的IFC 环境中的盒子。
 
 一个 non-replaced inline 元素生成一个行内盒子。对于那些不是行内盒子的行内级盒子，我们称为 原子行内级盒子，比如 replaced inline、inline-block、inline-table 元素，这是因为这些盒子在IFC中表现为一个单独而不可分割的盒子。
 
-2.2.1  匿名 inline boxes
+###  匿名 inline boxes
 任何直接包含在一个块容器元素中的文本必须视为一个匿名的行内元素。
 
 这些匿名行内盒子从它们的父级块容器盒子中继承可继承的属性，不可继承属性则赋予初始化值。
 
 如果在上下文中，我们明确就知道这是哪类匿名盒子，我们会将匿名块盒子和匿名行内盒子都简写为匿名盒子。
 
-2.3 Run-in boxes
+### Run-in boxes
 在 CSS3 中被废弃，可以用其他属性来模拟，应用场景不多。
 
-2.4 The 'display' property
+### The 'display' property
 Value:  	inline | block | list-item | inline-block | table | inline-table | table-xxx | none | inherit
 Initial:  	inline
 Applies to:  	all elements
