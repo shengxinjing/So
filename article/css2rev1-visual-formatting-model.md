@@ -39,7 +39,7 @@
 
 每个块级元素会生成一个主块级盒子，该主块级盒子将存放其后代盒子和生成内容，同时定位机制也跟它相关。此外，某些块级元素，如 `list-item` ，除了主块级盒子，还生成额外的盒子，这些额外的盒子相对于主块级盒子进行定位。
 
-除 `table box` 和 `replaced elements` 外，一个 `block-level box` 同时也是一个 `block container box`。一个 `block container box` 要么只包含 `block-level box` ，否则将形成一个 `Inline Formatting Context`，因此只能包含 `inline-level box`。并不是所有的`block container box` 都是 `block-level box`，`non-replaced inline-block`、`non-replaced table-cell` 都是 `block container box`，而本身并不是 `block-level box`。
+除 `table box` 和 `replaced elements` 外，一个 `block-level box` 同时也是一个 `block container box`。一个 `block container box` 要么只包含 `block-level box` ，否则将形成一个 `Inline Formatting Context`，因此只能包含 `inline-level box`。并不是所有的 `block container box` 都是 `block-level box`，`non-replaced inline-block`、`non-replaced table-cell` 都是 `block container box`，而本身并不是 `block-level box`。
 
  > Block-level boxes that are also block containers are called block boxes.
 
@@ -94,27 +94,32 @@ inline:             generate one or more inline boxes.
 list-item:          generate a principal block box and a marker box.
 ```
 
-## 3.定位机制
+## 3. 定位机制
+
 在CSS2.1中，一个盒子可以基于三种定位机制进行布局：
 
-普通流。在CSS2.1中，普通流包括由块级盒子组成的块级格式化、由行内级盒子组成的行内格式化以及块级和行内盒子的相对定位。
-浮动。在浮动模型中，一个盒子先基于普通流进行布局，然后脱离当前流，尽可能远地平移到 left 或 right。内容可能会围绕浮动一边流动。
-绝对定位。在绝对定位模型中，一个盒子完全从普通流中移除，并相对于其容器块进行定位。
-一个元素在浮动、绝对定位或是根元素时，这个元素是脱离文档流(flow)的。一个元素在文档流中是指它没有脱离文档流。一个元素A的文档流是指包括元素A 以及 A中所有文档流的元素的集合。
+ - **普通流**。普通流包括，`block-level box` 的块级格式、`inline-level box` 的行内格式、以及 `block-level box` 和 `inline-level box` 的相对定位。
+ - **浮动**。在浮动模型中，一个盒子先根据普通流布局，然后脱离普通流，尽可能远地平移到 `left` 或 `right`。内容会沿着浮动边缘流动。
+ - **绝对定位**。在绝对定位模型中，一个盒子完全从普通流中移除，并相对于其 `containing blok` 定位。
 
-The flow of an element A is the set consisting of A and all in-flow elements whose nearest out-of-flow ancestor is A.
+一个元素在浮动、绝对定位或是根元素时，该元素是**脱离流**的。而一个元素**在流中**则是指它没有脱离流。
 
-3.1 定位机制: 'position' property
-postion 和 float 属性决定了使用哪种定位机制来计算盒子的位置。
+ > The flow of an element A is the set consisting of A and all in-flow elements whose nearest out-of-flow ancestor is A.
 
-'position'
-Value:  	static | relative | absolute | fixed | inherit
-Initial:  	static
-Applies to:  	all elements
-Inherited:  	no
-Percentages:  	N/A
-Media:  	visual
+### 定位机制: `position` property
+
+`postion` 和 `float` 属性决定了使用哪种定位机制来计算盒子的位置。
+
+```
+Value:  	        static | relative | absolute | fixed | inherit
+Initial:  	        static
+Applies to:  	    all elements
+Inherited:  	    no
+Percentages:  	    N/A
+Media:  	        visual
 Computed value:  	as specified
+```
+
 static
 该盒子是一个普通盒子，基于普通流布局。top/right/bottom/left 属性不可应用。
 relative
