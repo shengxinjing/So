@@ -45,11 +45,11 @@
 
 `block level box`、`block container box` 和 `block box`，当我们不强调三者间的区别时，都缩写为 `block`。
 
-### 匿名 block boxes
+### 匿名 block box
 
 如果一个 `block container box` 内部拥有一个 `block-level box`，那么该 `block container box` 内部只能包含 `block-level box`。
 
-PS: **避免出现这样的情况**，因此以下省略
+PS: **请避免出现此类情况（含匿名 block box 和 inline 元素中含 block 元素两类）**，因此以下省略
 
 ### 行内级元素 和 行内盒子
 
@@ -59,33 +59,42 @@ PS: **避免出现这样的情况**，因此以下省略
 
 `inline-level element` 生成 `inline-level box`，是 `Inline Formatting Context` 中的基础元素。
 
-行内盒子是指本身是行内级盒子，同时其内容也参与到其所在的IFC 环境中的盒子。
+ > inline box 是指本身是 inline-level box，同时其内容(content)参与到所在的 IFC 环境中的盒子。
 
-一个 non-replaced inline 元素生成一个行内盒子。对于那些不是行内盒子的行内级盒子，我们称为 原子行内级盒子，比如 replaced inline、inline-block、inline-table 元素，这是因为这些盒子在IFC中表现为一个单独而不可分割的盒子。
+一个 `non-replaced inline` 元素生成一个 `inline box`。对于那些不是 `inline box`  的 `inline-level block`，我们称为 **原子行内级盒子**，比如 `replaced inline`、`inline-block`、`inline-table` 元素，这是因为这些盒子在IFC中表现为一个单独而不可分割的盒子。
 
-###  匿名 inline boxes
-任何直接包含在一个块容器元素中的文本必须视为一个匿名的行内元素。
+###  匿名 inline box
 
-这些匿名行内盒子从它们的父级块容器盒子中继承可继承的属性，不可继承属性则赋予初始化值。
+ > 任何直接包含在一个 `block container` 元素中的文本必须视为一个匿名的行内元素。
+ 
+ > Any text that is directly contained inside a block container element (not inside an inline element) must be treated as an anonymous inline element.
+ 
+这些匿名行内盒子从它们的父级 `block container`  盒子中继承可继承的属性，不可继承属性则赋予初始化值。
 
 如果在上下文中，我们明确就知道这是哪类匿名盒子，我们会将匿名块盒子和匿名行内盒子都简写为匿名盒子。
 
 ### Run-in boxes
+
 在 CSS3 中被废弃，可以用其他属性来模拟，应用场景不多。
 
-### The 'display' property
-Value:  	inline | block | list-item | inline-block | table | inline-table | table-xxx | none | inherit
-Initial:  	inline
-Applies to:  	all elements
-Inherited:  	no
-Percentages:  	N/A
-Media:  	all
-Computed value:  	the specified value, except for positioned and floating and the root element.
-block:             　　generate a block box.
-inline-block :   　　generate an inline-level block container. 
-inline:             　　generate one or more inline boxes.
-list-item:        　　 generate a principal block box and a marker box.
-3 定位机制
+### The `display` property
+
+```
+Value:              inline | block | list-item | inline-block | table | inline-table | table-xxx | none
+Initial:  	        inline
+Applies to:  	    all elements
+Inherited:  	    no
+Percentages:  	    N/A
+Media:  	        all
+Computed value:     the specified value, except for positioned and floating and the root element.
+
+block:              generate a block box.
+inline-block:       generate an inline-level block container. 
+inline:             generate one or more inline boxes.
+list-item:          generate a principal block box and a marker box.
+```
+
+## 3.定位机制
 在CSS2.1中，一个盒子可以基于三种定位机制进行布局：
 
 普通流。在CSS2.1中，普通流包括由块级盒子组成的块级格式化、由行内级盒子组成的行内格式化以及块级和行内盒子的相对定位。
