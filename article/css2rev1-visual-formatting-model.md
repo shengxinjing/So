@@ -120,30 +120,48 @@ Media:  	        visual
 Computed value:  	as specified
 ```
 
-static
-该盒子是一个普通盒子，基于普通流布局。top/right/bottom/left 属性不可应用。
-relative
-该盒子基于普通流定位，并相对其原始位置发生偏移。如果盒子B被相对定位，其后面的盒子在进行 layout 时就好像 B 并没有相对偏移。
-absolute
-该盒子通过top/right/bottom/left 属性指定其定位（甚至可能包括尺寸）。这些属性表示相对于该盒子的容器块的偏移距离。绝对定位元素完全脱离文档流。
-fixed
-该盒子基于绝对定位模型定位，同时，该盒子相对某些参考物来说是固定的。在手持、屏幕、投影、tv等媒体类型中，该盒子相对于视口固定，在视口滚动时不会发生移动。在打印媒体中，该盒子在每页中都将渲染，其相对于与 page box 固定。对于其他媒体，没有定义其表现方式。
-User agents may treat position as 'static' on the root element.
+**static**
+    
+根据普通流布局。`top/right/bottom/left` 属性将被忽略。
 
-3.2 Box offsets: 'top', 'right', 'bottom', 'left'
-我们说一个元素是定位元素，是指这个元素的 position 属性的值非 static。定位元素生成定位盒子，并基于这四个属性进行布局，
+**relative**
 
-'top'
-Value:  	<length> | <percentage> | auto | inherit
-Initial:  	auto
-Applies to:  	positioned elements
-Inherited:  	no
-Percentages:  	refer to height of containing block
-Media:  	visual
-Computed value:  	if specified as a length, the corresponding absolute length; if specified as a percentage, the specified value; otherwise, 'auto'.
-这个属性指定了一个绝对定位盒子的 margin box 边缘相对于其容器块边缘的偏移地址。对于相对定位盒子来说，偏移相对于该盒子自身的边缘。'right'　--   'bottom'　--　'left' 同理。
+根据普通流定位，渲染时相对其原始位置发生偏移，相对定位只改变元素渲染，而不影响元素布局。
 
-4 普通流
+**absolute**
+
+该盒子通过 `top/right/bottom/left`  属性指定其定位（甚至尺寸）。这些属性表示相对于该盒子的 `block container` 的偏移距离。绝对定位元素完全脱离普通流。
+
+**fixed**
+
+该盒子根据绝对定位模型定位，同时，其参考物是固定的。在手持、屏幕、投影、tv等媒体类型中，该盒子相对于视口固定，在视口滚动时不会发生移动。在打印媒体中，该盒子在每页中都将渲染，其相对于与 page box 固定。对于其他媒体，没有定义其表现方式。
+
+ > User agents may treat position as 'static' on the root element.
+
+### Box offsets: 'top', 'right', 'bottom', 'left'
+
+一个元素被称为定位元素(`positioned element`)，是指该元素 `position` 的属性值非 `static`。定位元素生成定位盒子，并基于下面四个属性(`top/right/bottom/left`)布局。
+
+```
+Value:  	        <length> | <percentage> | auto
+Initial:  	        auto
+Applies to:  	    positioned elements
+Inherited:  	    no
+Percentages:  	    refer to height/width of containing block
+Media:  	        visual
+Computed value:     as specified
+```
+
+该属性指定了绝对定位盒子的 `margin edge` 相对于其 `container block` 的 `edge` 的偏移距离。对于相对定位来说，偏移相对于该盒子自身。
+
+**auto**
+
+For non-replaced elements, the effect of this value depends on which of related properties have the value 'auto' as well. See the sections on the width and height of absolutely positioned, non-replaced elements for details. 
+
+For replaced elements, the effect of this value depends *only on the intrinsic dimensions of the replaced content*. See the sections on the width and height of absolutely positioned, replaced elements for details.
+
+## 4. 普通流
+
 在普通流中的盒子属于某个格式化上下文，可能是块级格式化上下文，也可能是行内的，但是不能同时属于这两个上下文。块级盒子参与到BFC中，而行内级盒子参与到IFC中。
 
 4.1 BFC 块级格式化上下文
