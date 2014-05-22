@@ -18,7 +18,7 @@
  4. 类库重温，再读 jquery、underscore、zepto
  5. 类库学习，初定 extjs、mootools
  6. MVC框架学习，backbone OR angular
- 7. 《Javascript 框架学习》*(undergoing 水平太差，看不懂)*
+ 7. 《Javascript 框架学习》*(undergoing 看不懂，计划延迟)*
  8. requirejs 和 seajs 对比学习
 
 ## Nodejs
