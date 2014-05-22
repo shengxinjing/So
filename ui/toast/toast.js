@@ -23,7 +23,7 @@ module.exports = (function() {
      * @desc  创建toast
      * @param {String} innerHTML 		toast显示的文字，支持 innerHTML 格式
      * @param {Number||3000} timeout 	toast超时消失时间，单位(ms)
-	 * @return null
+     * @return null
      */
     var create = function (innerHTML, timeout) {    
 		timeout = timeout || 3000;
@@ -75,5 +75,6 @@ module.exports = (function() {
         clear: 	clear	
     };
 })();
+
 
 });
