@@ -27,7 +27,7 @@
 
 每个盒子相对于其容器块定位，但并不限于容器块内部，因此盒子可能溢出。
 
-## 2. 显示类型 —— 控制盒子的生成
+## 2. display Type
 
 ### 块级元素和块盒子
 
@@ -65,7 +65,7 @@ PS: **请避免出现此类情况（含匿名 block box 和 inline 元素中含 
 
 ###  匿名 inline box
 
- > 任何直接包含在一个 `block container` 元素中的文本必须视为一个匿名的行内元素。
+ > 任何直接包含在 `block container` 元素中的文本必须视为一个匿名行内元素。
  
  > Any text that is directly contained inside a block container element (not inside an inline element) must be treated as an anonymous inline element.
  
@@ -152,7 +152,9 @@ Media:  	        visual
 Computed value:     as specified
 ```
 
-该属性指定了绝对定位盒子的 `margin edge` 相对于其 `container block` 的 `edge` 的偏移距离。对于相对定位来说，偏移相对于该盒子自身。
+该属性指定绝对定位盒子的 `margin edge` 相对其 `container block` 的 `edge` 的偏移距离。
+
+对于相对定位来说，偏移相对于该盒子自身。
 
 **auto**
 
@@ -162,37 +164,73 @@ For replaced elements, the effect of this value depends *only on the intrinsic d
 
 ## 4. 普通流
 
-在普通流中的盒子属于某个格式化上下文，可能是块级格式化上下文，也可能是行内的，但是不能同时属于这两个上下文。块级盒子参与到BFC中，而行内级盒子参与到IFC中。
+普通流中的盒子必属于某个格式化上下文，可能是块级格式化上下文，也可能是行内格式化上下文，但不能同时属于这两个上下文。
 
-4.1 BFC 块级格式化上下文
-浮动元素、绝对定位元素、非块盒子的块容器元素（比如inline-block、table-cell、table-caption）以及 overflow值非visible(除非这个值被传递到视口) 的块盒子会为其内容建立一个新的块级格式化上下文。
+ > Block-level boxes participate in a block formatting context. Inline-level boxes participate in an inline formatting context.
 
-在块级格式化上下文中，盒子从包含块的顶部开始，在垂直方向一个一个地连续布局。两个盒子之间的垂直距离有 margin 属性决定。在同一块级上下文中的相邻块级盒子的垂直 margin 会合并。
+### BFC 块级格式化上下文
 
-在一个块级上下文中，每个盒子的左外边距与包含块的左边缘重合（如果是rtl 格式化环境中，右边缘）。即使存在浮动时它也同样奏效，除非这个盒子建立一个新的块级上下文，这样由于浮动原因，这个盒子会变窄。
+1. 浮动元素
+2. 绝对定位元素
+3. 非 `block box` 的 `block container box` (**inline-level block container box**) 
+4. `overflow` 值非 `visible` 的 `block box`
+5. `root element box`
 
-4.2 行内格式化上下文 IFC
-在行内格式化上下文中，盒子依据水平方向进行布局，从包含块的顶部开始，一个接着一个布局。这些盒子的水平方向的 margin、border、padding 会发挥作用。行内格式化上下文中的盒子在垂直方向上有不同的对齐方式：比如顶部、底部、基线对齐等。
+会为其内容建立一个新的块级格式化上下文(**BFC**)。
 
-我们将形成每一个行的矩形区域称为行框(line box)。
+ - 在BFC中，`block-level box` 从 `containing block`  的顶部开始，垂直方向连续分布。
+ - 相邻盒子间的垂直距离由 `vertical margin` 属性决定。
+ - 同一BFC中相邻盒子间的 `vertical margin` 会发生合并。
+ - 在BFC中，盒子的 `left outer edge` 与 `containing block` 的 `left edge` 重合。即使存在浮动时也同样生效，除非该盒子建立一个新的BFC，这样由于浮动，这个盒子会变窄。
 
-一个行框的的宽度取决于其包含块以及浮动元素的存在情形。一个行框的高度取决于行高的计算规则。
+### IFC 行内格式化上下文 
 
-一个行框总是足够高来容纳该行内的所有盒子。当一个盒子B 的高度比包含它的行框的高度要小时，其垂直对齐方式取决于 vertical-algin 属性。当但个行框无法容纳多个行内盒子时，这些行内盒子将分配到多个垂直相邻的行框中。因此，一个段落就是一系列垂直排列的行框。垂直相邻的行框之间没有垂直的空白分隔，并且这些行框之间不会相互覆盖。
+ - 在IFC中，盒子从 `containing block` 顶部开始，沿水平方向分布。
+ - `inline-level box` 之间水平维度的 `margin`、`border`、`padding` 会发挥作用。
+ - `inline-level box` 在垂直方向上有多种对齐方式：如顶部、底部、基线等。
 
-通常来说，一个行框的左边缘与其包含块的左边缘重合，右边缘与其包含块的右边缘重合。但是，浮动盒子可能会出现在包含块和行框之间。因此，尽管在同一IFC中的行框通常有相同的宽度（即包含块的宽度），这些行框也可能由于浮动导致水平可用空间减少而产生不同的宽度。在同一IFC中的行框在高度上常常是不同的，取决于行高计算和垂直对齐方式。
+> The rectangular area that contains the boxes that form a line is called a `line box`.
 
-当一个行框中的所有行内级盒子总宽度小于该行框的宽度时，这些行内级盒子在水平方向的分布取决于 text-align 属性。
+ - `line box` 的宽度取决于其 `containing block` 以及浮动元素情况。
+ - `line box` 的高度取决于行高计算规则。
+ - `line box` 的高度总是足够高来容纳该行内的所有盒子。
+ - 当某个 `box` A的高度比包含它的 `line box` 的高度要**小**时，其垂直对齐方式取决于 vertical-algin 属性。
+ - 当单个 `line box` 无法容纳多个 `inline-level box` 时，这些盒子将分配到多个垂直相邻的 `line box` 中。
 
-当一个行内盒子超出了一个行框的宽度时，它将会被分割为多个盒子，这些盒子将分布到多个行框中。如果一个行内盒子无法进行分割（比如，这个行内盒子只包含一个字符，或是指定语言的分词规则不允许在这个行内盒子进行分词，又或者 white-space 值为 nowrap 或 pre等），那么这个行内盒子将会溢出这个行框。
+`<p>`元素就是一系列垂直排列的 `line box`。相邻 `line box` 间没有间隔，也不会发生覆盖（布局角度）。
+ 
+**line box 的宽度**
 
-当一个行内盒子被分割时，margin、border、padding 在分割处没有任何的视觉表现。
+通常来说，`line box` 的左(右)边缘与其 `containing block`的左(右)边缘重合。但是，浮动盒子可能会出现在 `containing block edge` 和 `line box edge` 之间。因此，尽管同一IFC中的 `line box` 通常有相同的宽度（即 `containing block` 的宽度），这些 `line box` 也可能由于浮动存在，使得水平可用空间减少而产生不同宽度。
 
-行内盒子也可以在同一行框中被分 割成多个盒子，这需要基于双向文本机制 (bidirectional text)。
+**line box 的高度**
 
-在一个IFC中，只生成刚好能足够容纳其行内级内容的行框数量。对于不含文本、无保留空白符、没有非零 margin、padding、border 的行内元素，以及没有其他文档流内容(比如图片、inline-block 或 inline-table)，并且也不是以一个保留的换行符结束的行框，对该行框内的任何元素进行定位时，这个行框被视作高度为零，如果是其他目的，则这个行框视为不存在。
+同一IFC中的不同 `line box` 在高度上常常也是不同的。
 
-4.3 相对定位
+**line box 的水平分布**
+
+当 `line box` 中的所有 `inline-level box` 宽度总和小于该 `line box` 的宽度时，这些 `inline-level box` 在水平方向的分布取决于 `text-align` 属性。
+
+ > If the property has the value 'justify', the user agent may stretch spaces and words in inline boxes (but not inline-table and inline-block boxes) as well.
+
+**line box 的换行 和 水平溢出**
+
+当某个 `inline box` 超出了其 `line box` 的宽度时，它将会被分割为多个 `box`，这些 `box` 会分布到多个相邻 `line box` 中。
+
+如果这个 `inline box` 无法进行分割（比如该 `inline box` 只包含单个字符，或指定语言的分词规则在该 `inline box` 无法分词，又或 `white-space` 值为 `nowrap` 或 `pre`），那么该 `inline box` 将会溢出所在 `line box`。
+
+当 `inline box` 被分割时，`margin`、`border`、`padding` 在分割处无任何效果。
+
+`inline box` 也可能由于 `bidirectional text` 在同一 `line box` 中被分割成多个 `box`。
+
+在IFC中，程序只生成刚好能足够容纳其 `inline-level` 内容的 `line box`。对于不含文本、无保留空白符、没有非零 margin、padding、border 的行内元素，以及没有其他文档流内容(比如图片、inline-block 或 inline-table)，并且也不是以一个保留的换行符结束的行框，对该行框内的任何元素进行定位时，这个行框被视作高度为零，如果是其他目的，则这个行框视为不存在。
+
+Line boxes are created as needed to hold inline-level content within an inline formatting context.
+
+Line boxes that contain no text, no preserved white space, no inline elements with non-zero margins, padding, or borders, and no other in-flow content (such as images, inline blocks or inline tables), and do not end with a preserved newline must be treated as zero-height line boxes for the purposes of determining the positions of any elements inside of them, and must be treated as not existing for any other purpose.
+
+### 相对定位
+
 一旦一个元素基于普通流或浮动进行布局，它就可以相对原有位置进行平移，这种机制称为相对定位。对元素B1进行相对定位不会影响之后的元素B2: 即B2在进行布局计算时就好像B1没有相对定位一样，当B1进行相对定位后，B2并不会重新定位。 这意味着相对定位会导致元素之间的相互覆盖。但是，如果相对定位导致一个 'overflow:auto' 或 'overflow:scroll' 的盒子内容溢出，用户代理必须允许用户能够访问溢出的内容，这时候，因为滚动条的创建，可能会影响其他元素的布局。
 
 一个相对定位的盒子会保持其普通流的尺寸，包括源代码中的换行和空格。一个相对定位元素会建立一个新的容器块(containing block)。
