@@ -46,11 +46,11 @@ MVP 和 MVVM 完全隔离了Model和View，但是在有些情况下，数据从M
 
 **MVC**
 
-　1. View 接受用户的交互请求
-　2. View将请求转交给Controller，
-　3. Controller 操作 Model 进行数据更新
-　4. 数据更新后，Model通知 View 数据变化
-　5. View 显示更新之后的数据
+ 1. View 接受用户的交互请求
+ 2. View将请求转交给Controller，
+ 3. Controller 操作 Model 进行数据更新
+ 4. 数据更新后，Model通知 View 数据变化
+ 5. View 显示更新之后的数据
 　　
 Controller不知道任何 View 的细节，一个 Controller 能被多个 View 使用。MVC的缺点是很难对 Controller进行单元测试，Controller操作数据，但是如何从View上断言这些数据的变化呢？
 
