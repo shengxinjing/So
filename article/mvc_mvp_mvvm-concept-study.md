@@ -44,7 +44,7 @@ MVP模式主要用于 Stateful 的客户端，客户端拥有强大的数据操�
 
 该模式的关键技术之一就是**数据的双向绑定，View的变化会直接影响ViewModel，ViewModel的变化或者内容也会直接体现在View上**。MVVM模式从MVP模式演变而来，都是富客户端的系统架构，其与MVP的另一不同之处在于，MVP中的 Presenter 和 View 是一对一关系，而MVVM模式中的 ViewModel 和 View 是一对多的关系，大幅度地提升数据间的共享能力，在 View 层能非常容易地实现多视图的联动。这种模式实际上是框架替应用开发者做了一些工作，开发者只需要较少的代码就能实现比较复杂的交互。
 
-## 3 再说一次
+## 3 三种模式
 
 **MVC模式**
 
@@ -53,11 +53,8 @@ MVP模式主要用于 Stateful 的客户端，客户端拥有强大的数据操�
  3. Model 返回的数据直接用来渲染 View
  4. 客户端显示更新后的 View
 
-在MVC模式中，程序认为用户在 View 上的交互是无状态的，因此这里的用户输入(User Action)等价于HTTP请求，HTTP 请求由后端 Controller 来接管。Controller 并不知道 View 的任何细节，Controller 和 View 是一对多的关系。
+在MVC模式中，程序认为 View 是无状态的，因此用户输入等价于HTTP请求，HTTP 请求由后端 Controller 来接管。Controller 并不知道 View 的任何细节，Controller 和 View 是一对多的关系。
 
-
-<del>MVC模式的缺点是很难对 Controller进行集中的单元测试，Controller操作数据，但是如何从View上断言这些数据的变化呢？</del>
- 
 **MVP模式**
 
  1. View 接受用户输入（有状态的View）
@@ -66,17 +63,21 @@ MVP模式主要用于 Stateful 的客户端，客户端拥有强大的数据操�
  4. 数据更新后，Model 通知 Presenter 数据发生变化
  5. Presenter 同步数据给 View，引发 View 更新
 
-和 MVC 不同的是，Presenter 能反作用于 View，不像 Controller只能被动的接受view的指挥。
+和 MVC 不同的是，Presenter 能反作用于 View，而且 View 和 Model 进行了完全隔离，由 Presenter 来负责更新 View。
 
-正常情况下，开发者对 View 进行抽象，提取其中的属性和事件，然后 Presenter 引用 View 的抽象（**即中间层**）。这样可以很容易地构造 View 的 mock 对象，提高可单元测试性。Presenter 不仅要操作数据，而且要更新 View。
+正常情况下，开发者对 View 进行抽象，提取其中的属性和事件，然后 Presenter 引用 View 的抽象（**即中间层**）。这样能很容易地构造 View 的 mock 对象，提高可单元测试性。
  
 **MVVM模式**
 
-MVVM在Model的基础上添加一个ViewModel，这个ViewModel除正常属性外，还包括一些供View显示用的属性（**即应用程序状态数据（stateful）**）。
+ 1. The user provides some kind of input.
+ 2. The View translates this to data and sends this data to the ViewModel, the ViewModel holds the data.
+ 3. When called to do so with a command, the ViewModel forwards the data as changes to the model.
+ 4. The Model is updated and sends possibly notifications of its state back to the ViewModel.
+ 5. The ViewModel sends a notification back to the View and the View rerenders.
 
-例如在经典MVP中，View 有一个属性 `ischeck`，需要在 Presenter 中设置 View 的 `ischeck` 值。而在MVVM中，ViewModel 也会有一个 `ischeck` 属性来同步 View 的 `ischeck`属性。ViewModel 和 View 通过观察者模式实现双向绑定。
+**The behavior and state is put in the Presentation Model.** That means, the view itself will not keep any state. The Presentation Model contains the state (and Model data). 
 
-## 4 differencs between MVC and MVVM
+## 4 MVC 和 MVVM 的起源
 
 It really boils down to（归结为） just the difference between the early web and the desktop.
 
@@ -90,19 +91,15 @@ Full page reloads rule. The **»view«** is generated anew（重新） each time
 
 ----------
 
-Desktop apps are fat clients, or rich clients. **They're clients full of intelligence, full of knowledge about their data**. They're **stateful**. They cache data they're handling in memory. No such crap as a full page relaod.
-
-And this rich desktop way is probably where the second acronym originated, MVVM.
+Desktop apps are fat clients, or rich clients. **They're clients full of intelligence, full of knowledge about their data**. They're **stateful**. They cache data they're handling in memory. No such crap as a full page relaod. And this rich desktop way is probably where the second acronym originated, MVVM.
 
 Don't be fooled by the letters, by the omission of the C. Controllers are still there. They need to be. Nothing gets removed. We just add one thing: **statefulness, data cached on the client (and along with it intelligence to handle that data)**. 
 
 That data, essentially a cache on the client, now gets called **»ViewModel«**. It's what allows rich interactivity. And that's it.
 
- > MVC = model, controller, view = essentially one-way communication = poor interactivity
-
-----------
-
- > MVVM = **model, controller（User Action）, cache（User Data）, view** = two-way communication = rich interactivity
+> MVC = model, controller, view = one-way communication = poor interactivity
+ 
+> MVVM = **model, controller（User Action）, cache（User Data）, view** = two-way communication = rich interactivity
  
 We can see that with Javascript, the web has embraced MVVM.
 
@@ -112,9 +109,13 @@ We can see that with Javascript, the web has embraced MVVM.
 
 MVC is an architectural design pattern that encourages improved application organization through a separation of concerns. It enforces the isolation of business data (Models) from user interfaces (Views), with a third component (Controllers) (traditionally) managing logic, user-input and coordinating both the models and views.
 
+目前阅读尚有压力，留待以后继续深入。
+
 ## 6 其他文章
 
 [Understanding MVC, MVP and MVVM Design Patterns](http://www.dotnet-tricks.com/Tutorial/designpatterns/2FMM060314-Understanding-MVC,-MVP-and-MVVM-Design-Patterns.html)
+
+> In web application, each action is a call to a URL and for each such call there is a controller available in the application who respond to such call. Once that Controller has completed its processing, it will return the correct View.
 
 **Key Points about MVP Pattern:**
 
@@ -129,21 +130,3 @@ MVC is an architectural design pattern that encourages improved application orga
  2. There is many-to-one relationship between View and ViewModel.
  3. Supports two-way data binding between View and ViewModel.
  4. View >> ViewModel >> Model  
- 
-[Understanding-Basics-of-UI-Design-Pattern-MVC-MVP](http://www.codeproject.com/Articles/228214/Understanding-Basics-of-UI-Design-Pattern-MVC-MVP)
-
-MVC、 MVP and MVVM patterns allow us to develop applications with loss coupling and separation of concern which in turn improve testability, maintainability and extendibility with minimum effort.
-
- > In web application, each action is a call to a URL and for each such call there is a controller available in the application who respond to such call. Once that Controller has completed its processing, it will return the correct View.
-
-### MVVM
-
-The essence of the Presentation Model is to take all behavior out of the View. **The behavior and state is put in the Presentation Model.** That means, the view itself will not keep any state. The Presentation Model contains the state. 
-
-What happens in an MVVM is as follows:
-
- 1. The user provides some kind of input.
- 2. The View translates this to data and sends this data to the ViewModel, the ViewModel holds the data.
- 3. When called to do so with a command, the ViewModel forwards the data as changes to the model.
- 4. The Model is updated and sends possibly notifications of its state back to the ViewModel.
- 5. The ViewModel sends a notification back to the View and the View rerenders.
