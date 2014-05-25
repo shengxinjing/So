@@ -100,7 +100,7 @@ Let's remember that this web way, compared to the desktop. Desktop apps are fat 
 
 **And this rich desktop way is probably where the second acronym originated, MVVM.** 
 
-Don't be fooled by the letters, by the omission of the C. Controllers are still there. They need to be. Nothing gets removed. We just add one thing: **statefulness, data cached on the client (and along with it intelligence to handle that data)**. That data, essentially（本质上来说） a cache on the client, now gets called »ViewModel«. It's what allows rich interactivity. And that's it.
+Don't be fooled by the letters, by the omission of the C. Controllers are still there. They need to be. Nothing gets removed. We just add one thing: **statefulness, data cached on the client (and along with it intelligence to handle that data)**. That data, essentially（本质上来说） a cache on the client, now gets called **»ViewModel«**. It's what allows rich interactivity. And that's it.
 
  > MVC = model, controller, view = essentially one-way communication = poor interactivity
 
@@ -119,3 +119,57 @@ MVC is an architectural design pattern that encourages improved application orga
 ## 6 最新文章怎么说
 
 [Understanding MVC, MVP and MVVM Design Patterns](http://www.dotnet-tricks.com/Tutorial/designpatterns/2FMM060314-Understanding-MVC,-MVP-and-MVVM-Design-Patterns.html)
+
+**Key Points about MVP Pattern:**
+
+ 1. User interacts with the View.
+ 2. There is one-to-one relationship between View and Presenter.
+ 3. View has a reference to Presenter but View has not reference to Model.
+ 4. Provides two way communication between View and Presenter.
+
+
+
+**Key Points about MVVM Pattern:**
+
+ 1. User interacts with the View.
+ 2. There is many-to-one relationship between View and ViewModel.
+ 3. View has a reference to ViewModel but View Model has no information about the View.
+ 4. Supports two-way data binding between View and ViewModel.
+ 
+[Understanding-Basics-of-UI-Design-Pattern-MVC-MVP](http://www.codeproject.com/Articles/228214/Understanding-Basics-of-UI-Design-Pattern-MVC-MVP)
+
+MVC、 MVP and MVVM patterns allow us to develop applications with loss coupling and separation of concern which in turn improve testability, maintainability and extendibility with minimum effort.
+
+MVP
+
+The view relies on a Presenter to populate it with model data, react to user input, and provide input validation. **For example, if user clicks on save button, corresponding handling is not in code behind, it’s now in presenter**. 
+
+In the MVC, **the Controller is responsible for determining which View is displayed in response to any action** including when the application loads. This differs from MVP where **actions route through the View to the Presenter**. In MVC, every action in the View basically calls to a Controller along with an action. **In web application, each action is a call to a URL and for each such call there is a controller available in the application who respond to such call. Once that Controller has completed its processing, it will return the correct View.**
+
+In case of MVP, view binds to the Model directly through data binding. In this case, it's the Presenter's job to pass off the Model to the View so that it can bind to it（**cumunicate to Model and View**）. The Presenter will **also contain logic** for gestures like pressing a button, navigation. It means while implementing this pattern, **we have to write some code in code behind of view in order to delegate to the presenter**. However, in case of MVC, a view does not directly bind to the Model. The view simply renders, and **is completely stateless**. In implementations of MVC, the View usually will not have any logic in the code behind. **Since controller itself returns view while responding to URL action, there is no need to write any code in view code behind file.**
+
+### MVC Steps
+
+    Step 1: Incoming request directed to Controller.
+    Step 2: Controller processes request and forms a data Model.
+    Step 3: Model is passed to View.
+    Step 4: View transforms Model into appropriate output format.
+    Step 5: Response is rendered.
+
+### MVVM
+
+If property values in the ViewModel change, those new values automatically propagate to the view via data binding and via notification. When the user performs some action in the view for example clicking on save button, **a command on the ViewModel** executes to perform the requested **action**（RESTFul）. In this process, it’s the ViewModel which modifies model data, View never modifies it. The view classes have no idea that the model classes exist, while the ViewModel and model are unaware of the view. In fact, the model doesn’t have any idea about ViewModel and view exists.
+
+### MVVM 再来一次
+
+The essence of the Presentation Model is to **take all behavior out of the View**. **The behavior and state is put in the Presentation Model.** That means, the view itself will not keep any state (other than what it looks like.) The Presentation Model contains the state. 
+
+The View that cannot or be weak to store any state or have any logic. 
+
+What happens in an MVVM is as follows:
+
+ 1. The user provides some kind of input.
+ 2. The View translates this to data and sends this data to the View Model, the View Model holds the data.
+ 3. When called to do so with a command, the View Model forwards the data as changes to the model.
+ 4. The Model is updated and sends possibly notifications of its state back to the View Model.
+ 5. The View Model sends a notification back to the View and the View rerenders.
