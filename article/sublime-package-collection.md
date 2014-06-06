@@ -1,12 +1,12 @@
 # sublime 插件集中地
 
-## 1. 代码格式化
+## 1. 格式化
 
 ### JSFormat
    
 Javascript 代码格式化，快捷键 **`Ctrl` + `Alt` + `F`**
 
-![Javascript 代码格式化的图片](http://m1.img.srcdd.com/farm4/d/2012/1105/15/A5168C4B7B117AB13B4F09037EEED6BC_B500_900_500_127.JPEG)
+![Javascript 代码格式化的图片](https://camo.githubusercontent.com/cc50e7fce68d91f05cc3335d40c8b26aa0d892c8/687474703a2f2f6d312e696d672e73726364642e636f6d2f6661726d342f642f323031322f313130352f31352f41353136384334423742313137414231334234463039303337454545443642435f423530305f3930305f3530305f3132372e4a504547)
 
 ### CSS Format
 
@@ -14,52 +14,64 @@ Javascript 代码格式化，快捷键 **`Ctrl` + `Alt` + `F`**
 
 ![CSS Format 的功能示意图](http://ww1.sinaimg.cn/large/67157d58gw1eh496txuv3j20q40afgmw.jpg)
 
+### Pretty JSON
 
-## 2. 排版美化
+格式化JSON
 
-### Alignment 代码对齐
+![](https://camo.githubusercontent.com/d4e0ca9dcbf2a3d4b3b84419417afe3f84a67b0c/687474703a2f2f6d332e696d672e73726364642e636f6d2f6661726d342f642f323031322f313130352f31362f31364139314432323542463333314537373135303242363837313031423143455f423530305f3930305f3530305f3135312e4a504547)
 
-选中文本后，按住 **`Ctrl` + `Alt` + `A`**。
+### Alignment 
+
+代码对齐，目前必须使用快捷键操作。
+
+文档：
+
+ * http://wbond.net/sublime_packages/alignment
+
+功能：
+
+ * 垂直方向的行对齐
+ * mid-line 垂直方向对齐，可以设置字符，比如 `:` 、`=`
+ * 设置是否确保有一个空格在 mid-line 字符前
 
 ![Alignment 的功能示意图](http://ww2.sinaimg.cn/large/67157d58gw1eh49f1zctdj20bb06kglx.jpg)
 
-## 3. 项目构建
 
-### JS Minifier
+## 2. 高亮 和 自动提示
 
-基于 Google Closure compiler 压缩文件
+### LESS
 
- * **`Ctrl` + `Alt` + `M`** 压缩代码 
- * **`Ctrl` + `Alt` + `Shift` + `M`** 压缩Js并生成压缩文件 *.min.js
+LESS 语法高亮
 
-![](http://m1.img.srcdd.com/farm4/d/2012/1105/16/9E47086290C2B5BAB8B9B079073D36E2_B500_900_500_148.JPEG)
+https://sublime.wbond.net/packages/LESS
 
-## 代码高亮
+### CSS3_Syntax 
 
-### LESS(REC)
+CSS3语法高亮，提升开发顺畅度。
 
-LESS语法高亮插件
+https://github.com/i-akhmadullin/Sublime-CSS3
 
-![](http://m3.img.srcdd.com/farm4/d/2012/1105/15/A977BAA7875CF524B81233C5D91EF7D8_B500_900_500_166.JPEG)
+### Bracket Highlighter
 
-### CSS3_Syntax CSS3语法高亮
+Bracket Highlighter matches a variety of brackets such as: `[]`, `()`, `{}`, `""`, `''`, `<tag></tag>`, and even custom brackets.
 
+https://sublime.wbond.net/packages/BracketHighlighter
 
-### Pretty JSON(REC)
-
-格式化JSON插件
-
-![](http://m3.img.srcdd.com/farm4/d/2012/1105/16/16A91D225BF331E771502B687101B1CE_B500_900_500_151.JPEG)
-
-### jQuery(REC)
+### jQuery
 
 ![](http://ww2.sinaimg.cn/mw690/67157d58gw1eh26ldbt7aj20gf04g74i.jpg)
 
+## 3. 代码校验
+
 ### SublimeLinter
 
-一个支持lint语法的插件，可以高亮linter认为有错误的代码行，也支持高亮一些特别的注释，比如“TODO”，这样就可以被快速定位。
+支持lint语法，可以高亮linter认为有错误的代码行，也支持高亮一些特别的注释，比如 `TODO`，这样就可以被快速定位。
 
 **`ctrl` + `alt` + `l`**
+
+https://sublime.wbond.net/packages/SublimeLinter
+
+## 4. 杂项
 
 ### Clipboard History
 
@@ -67,15 +79,9 @@ LESS语法高亮插件
 
 ### Nettuts Fetch
 
-如果你在用一些公用的或者开源的框架，比如 Normalize.css或者modernizr.js，但是，过了一段时间后，可能该开源库已经更新了，而你没有发现，这个时候可能已经不太适合你的项目了，那么你就要重新折腾一遍或者继续用陈旧的文件。Nettuts Fetch可以让你设置一些需要同步的文件列表，然后保存更新。
+Nettuts Fetch可以让你设置一些需要同步的文件列表，然后保存更新。
 
 ![](http://www.qianduan.net/wp-content/uploads/2012/02/remote.jpg)
-
-### Bracket Highlighter
-
-类似于代码匹配，可以匹配括号，引号等符号内的范围。
-
-https://github.com/facelessuser/BracketHighlighter/tree/BH2ST3
 
 ### ConvertToUTF8
 
@@ -83,24 +89,26 @@ https://github.com/facelessuser/BracketHighlighter/tree/BH2ST3
 
 ### CanIUse
 
-![](http://static.oschina.net/uploads/img/201402/05081908_kT29.gif)
+兼容性权威指南
+
+![兼容性权威指南](http://static.oschina.net/uploads/img/201402/05081908_kT29.gif)
 
 ### DocBlockr
 
-用来写注释的神器
+用来写注释的神器，基于 jsdoc 规范
 
-### Trimmer 
+### DevDocs
 
-干掉不必要的前置 或 后置空格，也可以干掉空行
+文档权威指南
 
 ### TrailingSpaces 
 
-高亮显示多余的空格和Tab
+TrailingSpacer能高亮显示多余的空格和Tab，并可以一键删除它们。
 
-有时候在代码结尾打多了几个空格或Tab，一般不会察觉，TrailingSpacer这款插件能高亮显示多余的空格和Tab，并可以一键删除它们。
+
 
 参考：
 
- * [1](http://www.jb51.net/web/79855.html)
- * [2](http://www.oschina.net/translate/20-powerful-sublimetext-plugins?from=20140210)
- * [3](http://www.tuicool.com/articles/qEFJrm)
+ * [1 巴拉巴拉](http://www.jb51.net/web/79855.html)
+ * [2 巴拉巴拉](http://www.oschina.net/translate/20-powerful-sublimetext-plugins?from=20140210)
+ * [3 巴拉巴拉](http://www.tuicool.com/articles/qEFJrm)
