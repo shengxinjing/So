@@ -49,3 +49,19 @@
  2. 多写 demo 少空想
  3. CSS3 点到为止
  4. 不读 ECMA5 规范文档
+
+## 想干什么
+
+ * DEMO
+    语言：Nodejs
+    服务器框架：express
+    数据库：mongodb(mongoose)
+    模版引擎：ejs(or jade)
+    后台文章格式：mardown
+    CSS框架：bootstrap
+    mobile first
+    前端实用库：zepto
+    前端模块化：sea.js
+    CSS预处理器：less
+    自动化构建：grunt
+    单元测试：mocha（测试框架） + chai （断言库）
