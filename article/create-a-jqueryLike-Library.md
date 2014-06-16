@@ -59,8 +59,8 @@ get: function (selector) {
 
 ```
 /*
- * Dome 构造函数，将 DOM 元素集合构造成一个类的实例。
- * Dome 实例，是一个类数据对象，在该实例上拓展了许多原型方法
+ * Dome 构造函数，将 DOM 元素的集合构造成类的实例
+ * Dome 实例是一个类数组对象，在该实例上拓展了许多原型方法
  *
  * @param       {ArrayLike.<Node>}      els
  * @return      {Dome}
@@ -81,7 +81,7 @@ function Dome (els) {
 /*
  * 工具函数 map
  *
- * @namespace Dome#map(callback(item, index): newItem) 
+ * @namespace   Dome#map(callback(item, index): newItem) 
  * @param       {callback(item, index): any}    callback
  * @return      {Array.<any>}
  */
@@ -98,7 +98,7 @@ Dome.prototype.map = function (callback) {
 /*
  * 工具函数 forEach
  *
- * @namespace Dome#forEach(callback(item, index)) 
+ * @namespace   Dome#forEach(callback(item, index)) 
  * @param       {callback(item, index)}         callback
  * @return      {Dome}
  */
@@ -110,7 +110,7 @@ Dome.prototype.forEach(callback) {
 /*
  * 工具函数 mapOne
  *
- * @namespace Dome#mapOne(callback(item, index)) 
+ * @namespace   Dome#mapOne(callback(item, index)) 
  * @param       {callback(item, index): any}    callback
  * @return      {any|Array.<any>}               
  */
@@ -123,11 +123,19 @@ Dome.prototype.mapOne = function (callback) {
 ## step 5: 处理文本 和 HTML
 
 ```javascript
-// @namespace Dome#text
-// @profile Setter Dome#text(text)
-// @profile Getter Dome#text()
+/*
+ * 操作 innerText 和 innerHTML
+ *
+ * @namespace   Dome#text()
+ *
+ * @profile     Dome#text(text)
+ * @param       {string}        text
+ * @return      {Dome}                         
+ *
+ * @profile     Dome#text()
+ * @return      {string|Array.<string>}               
+ */
 Dome.prototype.text = function (text) {
-    // check for argument.length === 0 is more happy
     if (typeof text !== "undefined") {
         return this.forEach(function (el) {
             el.innerText = text;
@@ -138,25 +146,21 @@ Dome.prototype.text = function (text) {
         });
     }
 };
-```
 
-```javascript
-Dome.prototype.html = function (html) {
-    if (typeof html !== "undefined") {
-        return this.forEach(function (el) {
-            el.innerHTML = html;
-        });
-    } else {
-        return this.mapOne(function (el) {
-                return el.innerHTML;
-        });
-    }
-};
+// 省略
+Dome.prototype.html = function (html) {};
 ```
 
 ## step 6: 调整样式
 
 ```javascript
+/*
+ * 增加 HTML 元素的 Class
+ *
+ * @namespace   Dome#addClass(classes)
+ * @param       {string|Array.<string>}         classes
+ * @return      {Dome}                         
+ */
 Dome.prototype.addClass = function (classes) {
     var className = "";
     
@@ -172,11 +176,15 @@ Dome.prototype.addClass = function (classes) {
         el.className += className;
     });
 };
-```
 
-为了保持简单，我们只允许一次删除一个样式。
-
-```javascript
+/*
+ * 删除 HTML 元素的 Class
+ * 为了简单，一次只能删除一个样式
+ *
+ * @namespace   Dome#removeClass(clazz)
+ * @param       {string}         clazz
+ * @return      {Dome}                         
+ */
 Dome.prototype.removeClass = function (clazz) {
     return this.forEach(function (el) {
         var classNames = el.className.split(" "),
@@ -191,27 +199,31 @@ Dome.prototype.removeClass = function (clazz) {
 };
 ```
 
-## step 7: attr()
+## step 7: Dome#attr()
 
 ```
-Dome.prototype.attr = function (attr, val) {
-};
+// 省略
+Dome.prototype.attr = function (attr, val) {};
 ```
 　
 ## step 8: 创建 DOM 元素
 
-将该方法作为 Dome 实例的一个方法不是很好，我们直接把它挂到dome对象上去。
-
 ```javascript
 var dome = {
-    create: function (tagName, attrs) {
-    }
+    // 创建 DOM 元素，返回值为 Dome 实例
+    create: function (tagName, attrs) {}
 };
 ```
 
-你已经看到，我们使用两个参数：元素的名字，和属性值对象。大部分属性能过attr方法赋值，但是两种方法可以做特殊处理。我们使用addClass方法操作className属性，以及text方法操作text属性。当然，我们首先需要创建DOM元素和Dome实例。
-
 ```
+/*
+ * 创建 HTML 元素
+ *
+ * @namespace   dome.create(tagName, attrs)
+ * @param       {string}        tagName
+ * @param       {Object}        attrs
+ * @return      {Dome}                         
+ */
 create: function (tagName, attrs) {
     var el = new Dome([document.createElement(tagName)]);
     
@@ -239,23 +251,10 @@ create: function (tagName, attrs) {
 }
 ```
 
-## step 9: 附加元素到 DOM 树
-
-dome1.append(dome2);
-
-使用情况如下：我们可能想要append或prepend
-
-一个新的元素到一个或多个已存在的元素
-
-多个新元素到一个或多个已存在的元素
-
-一个已存在的元素到一个或多个已存在的元素
-
-多个已存在的元素到一个或多个已存在的元素
-
-让我们一步一步来：
+## step 9: 将 DOM元素 添加至 DOM 树
 
 ```
+// 简单思路
 Dome.prototype.append = function (els) {
     this.forEach(function (parEl, i) {
         els.forEach(function (childEl) {
@@ -264,11 +263,18 @@ Dome.prototype.append = function (els) {
 };
 ```
 
-我们期望els参数是一个Dome对象。我们必须遍历我们每一个元素，并且在它里面，我们还要遍历每个我们需要append的元素。
-
-如果我们将els添加到多个元素内，我们需要克隆它们。然而，我们不想在他们第一次被附加的时候克隆节点，而是随后再说。如果我们不是附加到第一个父元素，我们将克隆节点。这样，真正的节点将会放到第一个父节点中，其它父节点将获得一个拷贝。
+如果我们需要将 `els` 添加到多个元素内，我们需要克隆它们。
 　　
 ```javascript
+/* 
+ * 添加 DOM 元素至 DOM 树
+ * 
+ * @namespace   Dome#append(elems)
+ * @native      Element#appendChild
+ * @native      Element#cloneNode
+ * @param       {Dome}          elems       要添加的 Dome 实例
+ * @return      {Dome}          Dome 实例
+ */
 Dome.prototype.append = function (els) {
     return this.forEach(function (parEl, i) {
         els.forEach(function (childEl) {
