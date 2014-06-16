@@ -1,25 +1,24 @@
 # 如何创建一个Javascript库
 
 > 原文：[Build Your First JavaScript Library](http://code.tutsplus.com/tutorials/build-your-first-javascript-library--net-26796)
-> 进行了精简，用于自我学习
+> 进行了修改和精简，用于自我学习
 
 ## step 1: Creating the Library Boilerplate
 
 我们以一个结构体开始，它展示了我们库的意图。
 
 ```
-// 模块化结构，所有 API 都挂载 dome 命名空间上
+/*
+ * 模块化结构，所有 API 都挂载 dome 命名空间上
+ */
 window.dome = (function () {
-    // 构造函数，将我们选择或创建的 DOM 封装成实例对象
+    // 构造函数，将我们选中或创建的 DOM 元素封装成实例对象
     function Dome (els) {
     }
         
-    // 库对外公布的 API 都挂载在 dome 上    
     var dome = {
-        // 用来从 DOM 树中选择元素
-        // 我们期望的返回是 Dome 实例
-        get: function (selector) {
-        }
+        // 从 DOM 树中选择元素，返回 Dome 实例
+        get: function (selector) {}
     };
         
     return dome;
@@ -29,9 +28,16 @@ window.dome = (function () {
 
 ## step 2: 获取元素
 
-dome.get() 函数传入一个参数。它可以有好几种情况，如果它是一个字符串，我们假定它是一个CSS选择器；我们也可以传入单个 DOM 节点或是一个 NodeList。
+`dome.get()` 传入一个参数，可以是字符串，也可以是 DOM 节点或 NodeList。
 
 ```
+/*
+ * 选择 DOM 元素
+ *
+ * @namespace   dome.get(selector)
+ * @param       {string|Node|NodeList}  selector
+ * @return      {Dome}
+ */
 get: function (selector) {
     var els;
     
@@ -44,7 +50,7 @@ get: function (selector) {
     }
     
     // els is a ArrayLike Object
-    // the function return a Dome instance
+    // the Dome constructor returns a Dome instance
     return new Dome(els);
 }
 ```
@@ -52,6 +58,13 @@ get: function (selector) {
 ## step 3: Dome 构造函数
 
 ```
+/*
+ * Dome 构造函数，将 DOM 元素集合构造成一个类的实例。
+ * Dome 实例，是一个类数据对象，在该实例上拓展了许多原型方法
+ *
+ * @param       {ArrayLike.<Node>}      els
+ * @return      {Dome}
+ */
 function Dome (els) {
 
     for (var i = 0; i < els.length; i++ ) {
@@ -62,35 +75,45 @@ function Dome (els) {
 }
 ```
 
-我们将 DOM 元素的集合封装为一个实例对象。由此，我们可以通过定义原型方法来集化操作这些 DOM 元素。
-
-## step 4: 添加常用工具函数
+## step 4: 添加工具函数
 
 ```
-// @namespace Dome#map(callback(item, index):newItem) 
+/*
+ * 工具函数 map
+ *
+ * @namespace Dome#map(callback(item, index): newItem) 
+ * @param       {callback(item, index): any}    callback
+ * @return      {Array.<any>}
+ */
 Dome.prototype.map = function (callback) {
     var results = [];
     
     for (i = 0; i < this.length; i++) {
-        // callback(item, index)
         results.push(callback.call(this, this[i], i));
     }
     
     return results;
 };
-```
 
-```
-// @namespace Dome#forEach()
+/*
+ * 工具函数 forEach
+ *
+ * @namespace Dome#forEach(callback(item, index)) 
+ * @param       {callback(item, index)}         callback
+ * @return      {Dome}
+ */
 Dome.prototype.forEach(callback) {
     this.map(callback);
-    // support for chainning invoke
     return this;
 };
-```
 
-```
-// @namespace Dome#mapOne
+/*
+ * 工具函数 mapOne
+ *
+ * @namespace Dome#mapOne(callback(item, index)) 
+ * @param       {callback(item, index): any}    callback
+ * @return      {any|Array.<any>}               
+ */
 Dome.prototype.mapOne = function (callback) {
     var mapArray = this.map(callback);
     return mapArray.length > 1 ? mapArray : mapArray[0];
