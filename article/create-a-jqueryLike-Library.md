@@ -7,7 +7,7 @@
 
 我们以一个结构体开始，它展示了我们库的意图。
 
-```
+```javascript
 /*
  * 模块化结构，所有 API 都挂载 dome 命名空间上
  */
@@ -30,7 +30,7 @@ window.dome = (function () {
 
 `dome.get()` 传入一个参数，可以是字符串，也可以是 DOM 节点或 NodeList。
 
-```
+```javascript
 /*
  * 选择 DOM 元素
  *
@@ -57,7 +57,7 @@ get: function (selector) {
 
 ## step 3: Dome 构造函数
 
-```
+```javascript
 /*
  * Dome 构造函数，将 DOM 元素的集合构造成类的实例
  * Dome 实例是一个类数组对象，在该实例上拓展了许多原型方法
@@ -77,7 +77,7 @@ function Dome (els) {
 
 ## step 4: 添加工具函数
 
-```
+```javascript
 /*
  * 工具函数 map
  *
@@ -201,7 +201,7 @@ Dome.prototype.removeClass = function (clazz) {
 
 ## step 7: Dome#attr()
 
-```
+```javascript
 // 省略
 Dome.prototype.attr = function (attr, val) {};
 ```
@@ -215,7 +215,7 @@ var dome = {
 };
 ```
 
-```
+```javascript
 /*
  * 创建 HTML 元素
  *
@@ -253,7 +253,7 @@ create: function (tagName, attrs) {
 
 ## step 9: 将 DOM元素 添加至 DOM 树
 
-```
+```javascript
 // 简单思路
 Dome.prototype.append = function (els) {
     this.forEach(function (parEl, i) {
@@ -289,7 +289,7 @@ Dome.prototype.append = function (els) {
 
 ## step 10: 移除节点
 
-```
+```javascript
 /* 
  * 移除 DOM 节点
  * 
@@ -305,7 +305,7 @@ Dome.prototype.remove = function () {
 
 ## step 11: 处理事件
 
-```
+```javascript
 /* 
  * 事件绑定
  * 
@@ -334,7 +334,7 @@ Dome.prototype.on = (function () {
 }());
 ```
 
-```
+```javascript
 /* 
  * 事件解除绑定
  * 
