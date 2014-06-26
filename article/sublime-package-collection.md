@@ -121,6 +121,53 @@ Nettuts Fetch可以让你设置一些需要同步的文件列表，然后保存�
 
 CSS 属性排序
 
+### SideBarEnhancements
+
+SideBarEnhancements 本是增强侧边栏插件，这里将教大家如何用来做st3的浏览器预览插件，并可自定义浏览器预览的快捷键。
+
+安装此插件，点击工具栏的 `preferences > package setting > side bar > Key Building-User`，键入以下代码，这里设置按 `Ctrl+Shift+C` 复制文件路径，按F1~F5分别在firefox，chrome，IE，safari，opera浏览器预览效果，注意代码中的浏览器路径要以自己电脑里的文件路径为准。
+
+```javascript
+[
+    { "keys": ["ctrl+shift+c"], "command": "copy_path" },
+    //firefox
+    { 
+        "keys": ["f1"], 
+        "command": "side_bar_files_open_with",
+        "args": {
+            "paths": [],
+            "application": "C:\\software\\Browser\\Mozilla Firefox\\firefox.exe",
+            "extensions":".*" //匹配任何文件类型
+        }
+    },
+    //chrome
+    { 
+        "keys": ["f2"], 
+        "command": "side_bar_files_open_with",
+        "args": {
+            "paths": [],
+            "application": "C:\\Users\\Mr.DenGo\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe",
+            "extensions":".*"
+        }
+     }
+]
+```
+
+### TrailingSpacer
+
+高亮显示多余的空格和Tab，并可以一键删除它们。
+
+![](http://img1.tuicool.com/VVfaqq.jpg)
+
+注意，在github上下载的插件缺少了一个设置快捷键的文件，可以新建一个名字和后缀为`Default (Windows).sublime-keymap`的文件，添加以下代码。
+
+```javascript
+[
+    { "keys": ["ctrl+alt+d"], "command": "delete_trailing_spaces" },
+    { "keys": ["ctrl+alt+o"], "command": "toggle_trailing_spaces" }
+]
+```
+
 参考：
 
  * [1 巴拉巴拉](http://www.jb51.net/web/79855.html)
