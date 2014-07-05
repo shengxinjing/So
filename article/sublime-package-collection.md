@@ -168,6 +168,8 @@ SideBarEnhancements 本是增强侧边栏插件，这里将教大家如何用来
 ]
 ```
 
+### markdown Preview
+
 参考：
 
  * [1 巴拉巴拉](http://www.jb51.net/web/79855.html)
