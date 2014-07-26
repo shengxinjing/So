@@ -18,6 +18,12 @@
 - `git log --pretty=oneline --abbrev-commit`
 - `git tag -m "version 0.1 released" v0.1`
 - git 别名
-```
-git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-```
+
+    ```
+    git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+    ```
+![git log --graph](http://ww2.sinaimg.cn/mw690/67157d58gw1eiqfniqenkj20eu0e2gnq.jpg)
+![git reflog](http://ww3.sinaimg.cn/mw690/67157d58gw1eiqfni27o1j20g9056dh3.jpg)
+![git branch](http://ww3.sinaimg.cn/mw690/67157d58gw1eiqfngsnjej20du03haab.jpg)
+![版本库、工作区、暂存区、提交、分支、HEAD](http://ww2.sinaimg.cn/mw690/67157d58gw1eiqfniqenkj20eu0e2gnq.jpg)
+
