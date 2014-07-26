@@ -25,5 +25,5 @@
 ![git log --graph](http://ww2.sinaimg.cn/mw690/67157d58gw1eiqfniqenkj20eu0e2gnq.jpg)
 ![git reflog](http://ww3.sinaimg.cn/mw690/67157d58gw1eiqfni27o1j20g9056dh3.jpg)
 ![git branch](http://ww3.sinaimg.cn/mw690/67157d58gw1eiqfngsnjej20du03haab.jpg)
-![版本库、工作区、暂存区、提交、分支、HEAD](http://ww2.sinaimg.cn/mw690/67157d58gw1eiqfniqenkj20eu0e2gnq.jpg)
+![版本库、工作区、暂存区、提交、分支、HEAD](http://ww1.sinaimg.cn/mw690/67157d58gw1eiqfnhhafgj20cq06i74g.jpg)
 
