@@ -139,7 +139,7 @@ jQuery.when() 可以用于监测多个 deferred 对象，函数返回一个 newD
 
 当所有 deferred 对象状态都变为 resolved 时会触发 newDefer.resolve。若其中一个 deferred 对象状态变为 rejected 时就会触发 newDefer.reject。
 
-```
+```javascript
 Promise.all = function(){
     var promiseArr = arguments.slice();
     var remaining  = promiseArr.length;
