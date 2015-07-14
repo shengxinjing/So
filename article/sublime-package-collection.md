@@ -49,6 +49,10 @@ Javascript 代码格式化，快捷键 **`Ctrl` + `Alt` + `F`**
 
 HTML5 语法高亮 和 提示
 
+### CSS3
+
+CSS3 属性识别
+
 ### Emmet
 
 zen Coding，革命性的工具
@@ -93,15 +97,11 @@ https://sublime.wbond.net/packages/SublimeLinter
 
 粘贴板历史记录，方便使用复制/剪切的内容。
 
-### Nettuts Fetch
-
-Nettuts Fetch可以让你设置一些需要同步的文件列表，然后保存更新。
-
-![](http://www.qianduan.net/wp-content/uploads/2012/02/remote.jpg)
-
 ### ConvertToUTF8
 
 快捷键 **`Ctrl` + `Shift` + `C`**
+
+`https://github.com/seanliang/Codecs33`，由于 Sublime Text 3 内嵌的 Python 限制，ConvertToUTF8 可能无法正常工作。你可以安装本插件来解决这一问题。
 
 ### CanIUse
 
