@@ -1,147 +1,257 @@
-# 前端面试集锦（二）
+### 判断字符串组成
 
-## Event事件机制
+第一个必须是字母，后面可以是字母、数字、下划线，总长度为5-20
 
-### 事件模型（职责链 + pub/sub）
-
-三个阶段（按照DOM树传递事件），订阅者/发布者模式。
-
-### 事件对象
-
-事件对象向用户提供了必要的用户输入信息，开发者根据这些用户信息来控制程序的逻辑走向。
-
+考察正则表达式的掌握。
 ```
-// 事件所处阶段
-e.eventPhase
-
-Event.prototype 
-    CAPTURING_PHASE : 1
-    AT_TARGET       : 2
-    BUBBLING_PHASE  : 3
-
-// 事件类型    
-e.type
-
-// 当前DOM节点
-e.currentTarget    OR   this
-
-// 事件源DOM节点
-e.target
-
-// 更多信息可参见相关文档或规范定义
+var regexp = /^[a-zA-Z]\w{4,19}$/ ;
+regexp.test("tetttttssfgdsg8979");
 ```
 
 
-### 事件扩散控制
+### 截取字符串 abcdefg 的 efg
 
- 1. e.stopPropagation()             阻止事件在职责链扩散     
- 2. e.stopImmediatePropagation()    结束后续的事件处理函数执行且阻止事件在职责链中的扩散
+考察字符串操作API的熟悉。
 
-一般来说，很少调用这两个函数。因为，一旦事件停止了扩散，父级节点就无法感知到这个事件，因此在程序上会出现`失察`问题。可以权衡使用的方式是，在事件对象 event 上增加自定义属性，由此来控制程序的走向。
+- `String.prototype.indexOf()`
+- `String.prototype.substring()`
+- `String.prototype.substr()`
+- `String.prototype.test()`
+
+
+### 判断一个字符串中出现次数最多的字符
+
+字符串遍历，并进行字符出现的计数，考察基本编程知识。
+
+
+### 如何规避多人开发时的函数重名冲突
+
+- 命名空间；
+- 立即执行函数模式，避免污染全局环境；
+
+样例代码：
+```
+MYAPP.namespace('MYAPP.utilities.array');
+MYAPP.utilities.array = (function() {
+
+    // 依赖声明
+    var uobj = MYAPP.utilities.object,
+        ulang = MYAPP.utilities.lang,
+
+        //私有属性
+        array_string = "[object Array]",
+        ops = Object.prototype.toString;
+
+    //私有方法
+    function isArray(a) {
+        return ops.call(a) === array_string;
+    }
+
+    //一次性初始化过程
+    //.........
+
+    //公有API
+    return {
+        isArray: isArray
+    };
+}());
+```
+
+
+### 面向对象编程中的继承
+
+- 原型式继承 和 借用构造函数结合的方式。
+
+```
+function inherit(SubClass, SuperClass) {
+	SubClass.prototype = Object.create(SuperClass.prototype);
+	SubClass.prototype.constructor = SubClass;
+	SubClass.uber = SuperClass;
+}
+
+function SubClass(config){
+	if (SubClass.uber) {
+		SubClass.uber.call(this, config);
+	}
+	//......
+}
+
+function SuperClass(config){
+	//......
+}
+
+inherit(SubClass, SuperClass);
+
+var obj = new SubClass({});
+```
+
+借用构造函数方式，解决了实例属性的问题，同时可以灵活地传递参数；原型式继承的优势，是有效地实现原型成员的复用和扩展（覆写），同时维护了原型链的关系。
+
+### 求字符串的字节个数
+
+在GBK编码下，中文是两个字节，UTF-8下中文为三个字节。
+
+```
+function GetBytes(str){
+    var len = str.length;
+    var bytes = len;
+    for (var i = 0; i < len; i++) {
+        if (str.charCodeAt(i) >= 256) bytes++;
+        if (str.charCodeAt(i) >＝ 65536) bytes++;
+    }
+    
+    return bytes;
+}
+```
+
+### 数组中相同元素去重
+
+- 注意要创建数组副本，不要修改原始数组。
+- 注意尽量避免扩展内置类型的原型方法。
+- `indexOf` 和 `equal`，如何判断两个元素相等
+
+```
+Array.prototype.unique = function() {
+    var ret = [];
+    var obj = {};
+    var len = this.length;
+    for (var i = 0; i < len; i++) {
+        var val = this[i];
+
+        if (!obj[val]) {
+            obj[val] = true;
+            ret.push(val);
+        }
+    }
+    return ret;
+};
+```
+
+### this 的典型应用
+
+- this 默认指代了 window
+- call 和 apply 的应用
+- 函数被当做方法调用
+- 构造函数
+
+### 实现对象的深复制
+
+- 实现浅复制。
+- 递归即可。
+- 函数是不可复制的，因此只能针对数据。
+
+### 将URL查询字符串解析为对象
+
+- 逼格尽显
+
+```
+function Url(str) {}
+
+Url.prototype.valueOf = function(){};
+Url.prototype.toString = function(){};
+
+Url.parse = function(str){};
+Url.stringify = function(obj){};
+
+```
+
+### 如何理解闭包
+
+先说作用域，作用域是指可以程序可访问的变量和函数的集合（权限） 。在JavaScript中，函数拥有自己的作用域。 由于函数中可以嵌套函数，因此作用域中也可以嵌套作用域。
+
+以下为例：
+
+```javascript
+function a() {
+	var A = 0;
+	
+	function b() {
+		var B = 1;
+	}
+	
+	b();
+}
+```
+
+函数 a 中嵌套了函数 b。
+
+函数 a 被执行时，将创建自己的作用域。因此在函数 a 的执行环境中， 可以通过变量标识 `A` 、`b` 访问到自身作用域中的对应变量和函数。同理，函数 b 被执行时也将创建自己的作用域（每次执行都会创建新的作用域），函数 b，不仅可以访问自身作用域中的变量和函数， 也可以访问其外层作用域中的变量和函数。
+
+这是由于，javascript 的变量和函数的查询机制决定的。 当存在作用域的嵌套情况时，此时，我们将从最里层的作用域开始，一层一层到最外层的一系列作用域所形成的一个有序数据结构，称之为作用域链。在函数中引用一个变量，该变量将沿着当前的作用域链，按照就近原则，进行匹配查找。因此，里面的函数，可以访问外层函数的作用域。
+
+函数的作用域链由两部分组成，一部分是**执行时作用域**，另一部分则是函数被定义时所确立的**静态作用域链**。当函数被定义时，其静态作用域链就已经被确定，不论函数在哪里被调用，其静态作用域链的值就是当前所在函数的**执行时作用域链**。函数调用时，在其创建执行上下文阶段，将**执行时作用域**拼接在其**静态作用域链**的前端，才形成**执行时作用域链**。这样的实现，使得在函数内部，开发者既可以访问定义在该函数内的局部变量和函数，也可以访问外层函数以及全局作用域中所定义的变量和函数。
+
+闭包是什么呢，广义的闭包就是指这个作用域机制。狭义的，是指函数拥有闭合的作用域，除了在该函数体内以及在该函数体内所定义的函数内可访问该作用域以外，其他方式均不可访问该作用域。
+
+这个特性，经常被用来创建一些中间作用域，用于限制变量和函数的访问权限。
+
+名词解释：
+
+- 函数在被定义时，拥有`[[Scope]]`属性，用于存放该函数的作用域链。
+- 函数被定义时，JavaScript引擎自动将该作用域链的值复制为所定义的执行上下文的作用域链值。
+- 函数作为第一类对象，是指函数可以像变量一般作为实参、函数返回值的形式被传递。
+- 执行上下文（Executive Context）是指可执行代码（Global、Function、Eval）执行时所创造并依赖的上下文。
+- JavaScript中有全局作用域、函数作用域、动态作用域。
+- 动态作用域是指临时作用域，分为 `with`、`try-catch`、`eval`三种形式。
+
+### js 异步加载和回调
+
+ 注意竞争状态的处理，下面有坑的。
+
+```
+var n = document.createElement("script");
+n.type = "text/javascript";
+n.onreadystatechange = function () {
+       var state = this.readyState;
+       if ('loaded' === state || 'complete' === state) {
+           n.onreadystatechange = null;
+           callback(id, url); 
+       }
+};
+n.addEventListener('load',function () { 
+	callback(id,url); 
+});
+```
+
+## 如何定义类型，prototype 原理
+
+在JavaScript中，通过构造函数，实现特定类型的对象创建。
+
+当我们在定义函数时，JavaScript引擎会自动定义该函数的构造器逻辑，构造器逻辑在我们使用 new 操作符调用函数时被调用。此外，JavaScript引擎还会自动新建该函数的 `prototype` 属性，其值是一个新建的Object实例，并拥有 `constructor` 属性，指向我们所定义函数。
+
+实例对象在被通过 new 操作创建时，JavaScript引擎将执行一个操作——给新建的实例对象赋值`[[prototype]]`属性，该值指向其构造函数的 `prototype` 对象。这时，我们将 `prototype` 对象称之为该构造函数的原型对象。通过这一机制，实例对象与原型对象建立了联系，实例对象一旦创建，其指向的原型对象就已确定，此时，如果更新构造函数的`prototype`对象的成员，在实例对象也会同步更新。但如果将构造函数的`prototype`指向为另一个对象，则原先创建的实例仍指向旧原型对象，之后创建的实例指向新原型对象。
+
+接下来就说 原型链 和 原型链查找机制。
  
-### 默认行为
+### 多浏览器检测通过什么？
 
-阻止默认行为 e.preventDefault()。
- 
-从测试效果看，可理解为，对应触发事件后，默认行为 function() { //dosomething} 立刻进入到 event loop 队列中，而 preventDefault 函数的调用是将该默认行为在队列中置灰，即`function(){}`。
+- navigator.userAgent  用户代理
+- 特性检测
+- 怪癖检测，用于处理奇怪的bug
 
-查询对应事件的默认行为，可以参阅相关规范或开发文档。
+### 前端开发的优化
 
-此概念也常用于Javascript编程中。经典的例子 ，dialog 对话框在关闭前触发一个 beforeClose 事件，其默认行为即关闭对话框。 但是当事件处理函数返回 false时，阻止默认的对话框关闭行为。
+原则一： 减少网络通信和HTTP请求消耗
 
-### jquery的事件实现
+- 合并请求，比如CSS精灵、合并JavaScript文件、合并CSS文件
+- 缓存数据，减少请求
+- CDN，选择最优线路下载数据
+- 按需加载，仅当需要时才请求必要数据
+- 延迟加载，典型应用是Lazyload延迟加载图片
+- 预加载，提前申请数据，对用户未来行为预测
+- 代码优化，减少代码量
+- 首屏外数据异步化
 
- 1. 事件的手动派发(派发该元素上的事件)
- 2. 事件对象的二次封装
- 3. 事件委托的模拟
- 4. 非冒泡事件的冒泡化（职责链派发）
- 5. 高阶事件（特殊事件）
+原则二： 减少客户端的处理压力
 
-## 性能优化系统
+- 合理规划HTML代码，精简DOM树规模
+- 利用CSS选择器性能差异，尽可能少用CSS表达式、利用CSS继承和层叠特定
+- img标签在宽高可知时在HTML中定义宽度和高度，避免浏览器回流和重绘
+- 减少和优化DOM操作，缓存查询结果，批量化操作方法避免反复回流和重绘（文档碎片、复制节点、隐藏元素）
+- 使用setTimeout避免浏览器失去响应，或者使用 Web Workers后台执行JavaScript
+- 使用innerHTML，利用浏览器的原生效率高的特性
+- 使用事件代理技术
+- 延迟渲染，比如textarea的技术
+- 优化JavaScript代码，减少性能损失
 
-### 性能监控
-
- 1. 监控方式（侵入式和非侵入式）
- 2. 监控粒度（关键时刻点）
- 3. 数据汇报
- 4. 产生图表
- 5. 基础服务化
-
-### 数据分析
-
- 1. 分析性能优化效果 与 性能瓶颈
-
-### 方案调研和优化
-
- 1. 确认性能瓶颈，调研解决方案
- 2. 代码开发与上线
-
-### 数据反馈
-
-### 流程化
-
-### 性能优化建议
-
- 1. CDN接入，提升**请求并发**能力（网络延时高时有较好效果）
- 2. 降低资源冗余度，**按需加载**
- 3. 合理的版本管理，提升**缓存**命中率
- 4. 合理的请求合并（或资源嵌入），**降低请求数**
- 5. 延迟加载（考虑竞争状态），**核心任务优先**原则
- 6. **提前处理**（DNS预解析，图片预加载，js预加载）
- 7. HTTP长连接，**避免重复握手**
-
-## Javascript模块化编程
-
-### CommonJS 
-
-本地Javascript模块化规范
-
-### AMD
-
-浏览器端Javascript模块化规范
-
-### requirejs
-基于AMD的实现
-
-### seajs
-基于CMD的实现
-
-## 前端架构
-
-### js模块化框架
-
-可选方案：
-
- * require
- * seajs
- * ......
-
-### js基础库 及 扩展
-
-### normalize CSS & util CSS
-
-### CSS预处理语言 和 公共 mixin
-
-### 开发组件化
-
-### 代码文档化
-
-### 项目构建和部署
-
-### 单元测试
-
-## FIS2核心功能
-
-### pipe
-
-文件的 pipe 处理，提供file API接口，所有对文件的操作都通过统一接口进行。
-
-### map.json 和 三种能力
-
-资源统一管理能力
-
-### 自动性能优化
-
-### 组件化开发
-
-### 优秀的版本控制
+具体规则可以看Yahoo的指导建议。
