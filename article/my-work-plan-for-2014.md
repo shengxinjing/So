@@ -29,11 +29,6 @@
 ## Nodejs
 
  1. 《深入浅出Nodejs》
- 2. Express 4x 学习**(done)**
-    * 完成，产出物为 博客文章 一篇，对 Express 有较全面的了解 
- 3. Express 4x 源码学习**(undergoing)**
-    * 已大略完成一遍的源码阅读，等待后续跟进
- 4. Express + mongoose 后端项目实践（+ 源码阅读）
 
 ## 其他
 
@@ -41,29 +36,9 @@
  2. **项目自动化构建**跟踪学习， grunt + FIS2 (+ glup + ......)
  3. 编辑器切换为 **sublime**，并学习重型编辑器 **webstorm**
  4. 《web性能权威指南》
- 5. 坚持 github 和 博客**(undergoing)**
 
 ## 不干什么
 
- 1. 不碰绘图 和 游戏
  2. 多写 demo 少空想
  3. CSS3 点到为止
  4. 不读 ECMA5 规范文档
-
-## 想干什么
-
- * DEMO
-```
-Mobile first
-数据库：mongodb(mongoose)
-后端语言：Nodejs
-服务器框架：express
-模版引擎：ejs(or jade)
-文章格式：mardown
-CSS预处理器：less
-CSS框架：bootstrap
-前端实用库：zepto
-前端模块化：sea.js
-自动化构建：grunt
-单元测试：mocha（测试框架） + chai （断言库）
-```
