@@ -69,6 +69,13 @@ jquery API 提示，利于快速开发
 
 在当前打开的文件中完成自动匹配，扩展 sublime 原生的 atuocomplete
 
+### AutoFileName
+
+文件路径和文件名自动补全
+
+### nodejs
+
+nodejs 代码自动提示
 
 ## 3. 代码校验
 
