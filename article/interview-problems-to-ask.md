@@ -87,3 +87,7 @@
  7. 后端 OR Nodejs，命令行、Express、Koa
  8. 代码的可维护性
  9. 系统架构（我现在还不知道有什么内容呢~~）
+
+
+![](http://wd.geilicdn.com/b7982630030332673deb6ae8644a9b44.png)
+![](http://wd.geilicdn.com/d04d19ba0cd127203d173bfb41573320.png)
